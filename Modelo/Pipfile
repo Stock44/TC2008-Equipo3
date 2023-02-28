@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 mesa = "*"
+kafka-python = "*"
 
 [dev-packages]
 

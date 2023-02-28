@@ -7,15 +7,16 @@ from mesa import Agent
 
 from typing import TYPE_CHECKING
 
-from m3_model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
+from model.StateProducer import StateProducer
+from model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
 
 if TYPE_CHECKING:
-    from m3_model.cross_road_model import CrossRoadModel
+    from model.cross_road_model import CrossRoadModel
 
-from m3_model.direction import Direction, RoadOrientation
+from model.direction import Direction, RoadOrientation
 
 
-class CarAgent(Agent):
+class CarAgent(Agent, StateProducer):
 
     def __init__(self, unique_id, model: 'CrossRoadModel', direction: Direction):
         super().__init__(unique_id, model)
@@ -29,6 +30,14 @@ class CarAgent(Agent):
         self._y_speed = 0
 
         self._wanted_direction: Direction | None = random.choice(self.get_possible_directions())
+
+    def dump_state(self) -> dict[str, any]:
+        return {
+            'id': self.unique_id,
+            'type': 'car',
+            'pos': self.pos,
+            'direction': self._direction,
+        }
 
     def get_possible_directions(self):
         directions = set(Direction)

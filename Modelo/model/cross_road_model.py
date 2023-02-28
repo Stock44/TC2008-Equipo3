@@ -1,3 +1,5 @@
+from typing import Any
+
 import numpy as np
 import random
 
@@ -6,21 +8,22 @@ from mesa.time import SimultaneousActivation
 from mesa.space import SingleGrid
 from mesa.datacollection import DataCollector
 
-from m3_model.direction import Direction, RoadOrientation
-from m3_model.field_agent import FieldAgent
-from m3_model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
-from m3_model.car_agent import CarAgent
+from model.direction import Direction, RoadOrientation
+from model.field_agent import FieldAgent
+from model.StateProducer import StateProducer
+from model.model_kafka_producer import ProducerModel
+from model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
+from model.car_agent import CarAgent
 
 
-class CrossRoadModel(Model):
+class CrossRoadModel(ProducerModel):
     """A model with some number of agents."""
 
-    def __init__(self, num_agents=10, half_length=10, traffic_time=10, road_lanes=3):
+    def __init__(self, half_length=10, traffic_time=10, road_lanes=3):
         super().__init__()
 
         self._next_id = 0
 
-        self.num_agents = num_agents
         self.running = True
 
         self.road_lanes: int = road_lanes
@@ -32,8 +35,11 @@ class CrossRoadModel(Model):
 
         self.grid = SingleGrid(self.width, self.height, True)
         self.schedule = SimultaneousActivation(self)
+
         self.traffic_time = traffic_time
         self.traffic_lights: dict[Direction, TrafficLightAgent] = {}
+
+        self.state_producers: list[StateProducer] = []
 
         # limits of each road (first cell in road, last cell in road)
         self.h_road_boundary = (half_length - road_lanes, half_length + road_lanes - 1)
@@ -116,10 +122,17 @@ class CrossRoadModel(Model):
             self._add_random_car_agents(corner1, corner2, direction)
 
         self.datacollector = DataCollector(
-            model_reporters={"Grid": lambda _: self.get_grid_as_array(),
-                             "Waiting": lambda _: self.count_waiting_agents(),
-                             "Running": lambda _: self.count_running_agents()}
+            model_reporters={"Grid": lambda _: self.get_grid_as_array()}
+            # "Waiting": lambda _: self.count_waiting_agents(),
+            # "Running": lambda _: self.count_running_agents()}
         )
+
+    def dump_agent_states(self) -> list[dict[str, any]]:
+        states = []
+        for producer in self.state_producers:
+            states.append(producer.dump_state())
+
+        return states
 
     def _add_random_car_agents(self, corner1: tuple[int, int], corner2: tuple[int, int], orientation: RoadOrientation,
                                probability: float = 0.95):
@@ -141,6 +154,7 @@ class CrossRoadModel(Model):
             else:
                 direction = Direction.RIGHT if y < self.road_lanes else Direction.LEFT
             car = CarAgent(self._next_id, self, direction)
+            self.state_producers.append(car)
             self._next_id += 1
 
             self.schedule.add(car)
@@ -151,20 +165,20 @@ class CrossRoadModel(Model):
         self.datacollector.collect(self)
         self.schedule.step()
 
-    def count_waiting_agents(self):
-        total_waiting_time = 0
+    # def count_waiting_agents(self):
+    #     total_waiting_time = 0
+    #
+    #     Por todas las celdas del grid
+    # for cell in self.grid.coord_iter():
+    #     agent, x, y = cell
+    #     if isinstance(agent, CarAgent):
+    #         pass
+    #         total_waiting_time += agent.waiting
+    #
+    # return total_waiting_time
 
-        # Por todas las celdas del grid
-        for cell in self.grid.coord_iter():
-            agent, x, y = cell
-            if isinstance(agent, CarAgent):
-                pass
-                # total_waiting_time += agent.waiting
-
-        return total_waiting_time
-
-    def count_running_agents(self):
-        return self.num_agents - self.count_waiting_agents()
+    # def count_running_agents(self):
+    #     return self.num_agents - self.count_waiting_agents()
 
     def get_grid_as_array(self):
         grid = np.zeros((self.grid.width, self.grid.height))

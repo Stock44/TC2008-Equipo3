@@ -3,6 +3,7 @@ from mesa.visualization.UserParam import Slider
 from mesa.visualization.modules import CanvasGrid, ChartModule
 from .cross_road_model import CrossRoadModel
 from .portrayal import portray_agent
+from model.model_kafka_producer import run_and_report_model
 
 NUM_CARS = 50
 HALF_LENGTH = 20
@@ -19,19 +20,23 @@ model_params = {
     # 'car_turning_rate': Slider("Turning rate", CAR_TURNING_RATE, 0.0, 1.0, 0.1)
 }
 
-length = model_params['half_length'].value * 2
-canvas_element = CanvasGrid(
-    portray_agent, length, length,
-    pixel_ratio * length, pixel_ratio * length)
-chart_element = ChartModule([
-    {"Label": "Waiting", "Color": "#AA0000"},
-    {"Label": "Running", "Color": "#00AA00"}
-])
+model = CrossRoadModel(half_length=20, traffic_time=5, road_lanes=3)
 
-server = ModularServer(model_cls=CrossRoadModel,
-                       visualization_elements=[canvas_element, chart_element],
-                       name="Cross Road", model_params=model_params)
+run_and_report_model(model, 'localhost:9092')
 
-server.max_steps = MAX_ITERATIONS
+# length = model_params['half_length'].value * 2
+# canvas_element = CanvasGrid(
+#     portray_agent, length, length,
+#     pixel_ratio * length, pixel_ratio * length)
+# chart_element = ChartModule([
+#     {"Label": "Waiting", "Color": "#AA0000"},
+#     {"Label": "Running", "Color": "#00AA00"}
+# ])
 
-server.launch()
+# server = ModularServer(model_cls=CrossRoadModel,
+#                        visualization_elements=[canvas_element, chart_element],
+#                        name="Cross Road", model_params=model_params)
+
+# server.max_steps = MAX_ITERATIONS
+#
+# server.launch()

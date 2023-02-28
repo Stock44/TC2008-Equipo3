@@ -1,8 +1,8 @@
 from mesa import Agent
 
-from m3_model.field_agent import FieldAgent
-from m3_model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
-from m3_model.car_agent import CarAgent
+from model.field_agent import FieldAgent
+from model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
+from model.car_agent import CarAgent
 
 
 def portray_traffic_light(traffic_light: TrafficLightAgent):
