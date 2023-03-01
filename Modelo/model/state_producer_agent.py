@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 
+from mesa import Agent
 
-class StateProducer(ABC):
+
+class StateProducerAgent(Agent, ABC):
     dirty: bool = False
 
     @abstractmethod

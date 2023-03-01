@@ -1,6 +1,8 @@
 from mesa import Agent
 from enum import IntEnum
 
+from model.state_producer_agent import StateProducerAgent
+
 
 class TrafficLightColor:
     RED = 0
@@ -8,7 +10,7 @@ class TrafficLightColor:
     GREEN = 2
 
 
-class TrafficLightAgent(Agent):
+class TrafficLightAgent(StateProducerAgent):
     def __init__(self, unique_id, model, green_duration=10, red_duration=10, yellow_duration=5, step_offset=0,
                  starting_color=TrafficLightColor.RED):
         super().__init__(unique_id, model)
@@ -20,6 +22,14 @@ class TrafficLightAgent(Agent):
 
         self._step_counter = step_offset + 1
         self._paused = False
+
+    def dump_state(self) -> dict[str, any]:
+        return {
+            'id': self.unique_id,
+            'x': self.pos[0],
+            'y': self.pos[1],
+            'color': self.color
+        }
 
     def pause(self, paused: bool):
         self._paused = paused

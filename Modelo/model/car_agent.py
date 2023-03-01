@@ -7,16 +7,16 @@ from mesa import Agent
 
 from typing import TYPE_CHECKING
 
-from model.StateProducer import StateProducer
+from model.state_producer_agent import StateProducerAgent
 from model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
 
 if TYPE_CHECKING:
     from model.cross_road_model import CrossRoadModel
 
-from model.direction import Direction, RoadOrientation
+from model.direction import Direction
 
 
-class CarAgent(Agent, StateProducer):
+class CarAgent(StateProducerAgent):
 
     def __init__(self, unique_id, model: 'CrossRoadModel', direction: Direction):
         super().__init__(unique_id, model)
@@ -34,9 +34,8 @@ class CarAgent(Agent, StateProducer):
     def dump_state(self) -> dict[str, any]:
         return {
             'id': self.unique_id,
-            'type': 'car',
-            'pos': self.pos,
-            'direction': self._direction,
+            'x': self.pos[0],
+            'y': self.pos[1],
         }
 
     def get_possible_directions(self):

@@ -1,9 +1,10 @@
+import time
+
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import Slider
 from mesa.visualization.modules import CanvasGrid, ChartModule
 from .cross_road_model import CrossRoadModel
 from .portrayal import portray_agent
-from model.model_kafka_producer import run_and_report_model
 
 NUM_CARS = 50
 HALF_LENGTH = 20
@@ -20,9 +21,22 @@ model_params = {
     # 'car_turning_rate': Slider("Turning rate", CAR_TURNING_RATE, 0.0, 1.0, 0.1)
 }
 
-model = CrossRoadModel(half_length=20, traffic_time=5, road_lanes=3)
+model = CrossRoadModel('localhost:9092', half_length=20, traffic_time=5, road_lanes=3)
 
-run_and_report_model(model, 'localhost:9092')
+tick_duration = 1
+while True:
+    begin = time.time()
+
+    model.step()
+
+    model.send_states()
+
+    delta_t = time.time() - begin
+
+    if delta_t < tick_duration:
+        time.sleep(tick_duration - delta_t)
+    else:
+        print("ticks running behind by %f s!" % (delta_t - tick_duration))
 
 # length = model_params['half_length'].value * 2
 # canvas_element = CanvasGrid(

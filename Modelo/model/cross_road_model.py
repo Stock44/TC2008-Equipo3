@@ -10,17 +10,21 @@ from mesa.datacollection import DataCollector
 
 from model.direction import Direction, RoadOrientation
 from model.field_agent import FieldAgent
-from model.StateProducer import StateProducer
-from model.model_kafka_producer import ProducerModel
+from model.state_producer_agent import StateProducerAgent
+from model.agent_state_producer_model import AgentStateProducerModel
 from model.traffic_light_agent import TrafficLightAgent, TrafficLightColor
 from model.car_agent import CarAgent
 
 
-class CrossRoadModel(ProducerModel):
+class CrossRoadModel(AgentStateProducerModel):
     """A model with some number of agents."""
 
-    def __init__(self, half_length=10, traffic_time=10, road_lanes=3):
-        super().__init__()
+    def __init__(self, kafka_address: str, half_length=10, traffic_time=10, road_lanes=3):
+        super().__init__(kafka_address)
+
+        self.register_agent_type(FieldAgent, "fields")
+        self.register_agent_type(CarAgent, "cars")
+        self.register_agent_type(TrafficLightAgent, "traffic_lights")
 
         self._next_id = 0
 
@@ -38,8 +42,6 @@ class CrossRoadModel(ProducerModel):
 
         self.traffic_time = traffic_time
         self.traffic_lights: dict[Direction, TrafficLightAgent] = {}
-
-        self.state_producers: list[StateProducer] = []
 
         # limits of each road (first cell in road, last cell in road)
         self.h_road_boundary = (half_length - road_lanes, half_length + road_lanes - 1)
@@ -89,6 +91,7 @@ class CrossRoadModel(ProducerModel):
             self.schedule.add(traffic_light)
             self.traffic_lights[direction] = traffic_light
             self.grid.place_agent(traffic_light, position)
+            self.register_agent(traffic_light)
 
         # Create field agents
         for cell in self.grid.coord_iter():
@@ -102,6 +105,7 @@ class CrossRoadModel(ProducerModel):
                 self._next_id += 1
                 self.schedule.add(field)
                 self.grid.place_agent(field, (x, y))
+                self.register_agent(field)
 
         sections = [
             ((half_length - road_lanes, 0), (half_length + road_lanes, half_length - road_lanes)),
@@ -127,13 +131,6 @@ class CrossRoadModel(ProducerModel):
             # "Running": lambda _: self.count_running_agents()}
         )
 
-    def dump_agent_states(self) -> list[dict[str, any]]:
-        states = []
-        for producer in self.state_producers:
-            states.append(producer.dump_state())
-
-        return states
-
     def _add_random_car_agents(self, corner1: tuple[int, int], corner2: tuple[int, int], orientation: RoadOrientation,
                                probability: float = 0.95):
         rng = np.random.default_rng(4812821)
@@ -154,7 +151,7 @@ class CrossRoadModel(ProducerModel):
             else:
                 direction = Direction.RIGHT if y < self.road_lanes else Direction.LEFT
             car = CarAgent(self._next_id, self, direction)
-            self.state_producers.append(car)
+            self.register_agent(car)
             self._next_id += 1
 
             self.schedule.add(car)
