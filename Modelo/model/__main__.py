@@ -23,7 +23,7 @@ model_params = {
 
 model = CrossRoadModel('localhost:9092', half_length=20, traffic_time=5, road_lanes=3)
 
-tick_duration = 1
+tick_duration = 0.5
 while True:
     begin = time.time()
 
