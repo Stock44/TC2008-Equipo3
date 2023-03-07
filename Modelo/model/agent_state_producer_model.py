@@ -9,9 +9,7 @@ from abc import ABC, abstractmethod
 from model.state_producer_agent import StateProducerAgent
 
 
-def json_serializer(input_dict: dict[str, any]):
-    json_str = json.dumps(input_dict)
-    return bytes(json_str, 'utf-8')
+
 
 
 class AgentStateProducerModel(Model, ABC):
