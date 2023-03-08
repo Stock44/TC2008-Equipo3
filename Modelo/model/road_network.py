@@ -4,15 +4,23 @@ import networkx as nx
 import numpy as np
 import osmnx as ox
 import osmnx.plot
+import osmnx.settings
 from scipy.spatial.distance import cdist
-from sortedcontainers import SortedList
+from dataclasses import dataclass
+from bisect import insort_left
 
 from model.vehicle_agent import VehicleAgent
 
-ox.use_cache = True
+ox.settings.use_cache = True
+ox.settings.useful_tags_way += ['layer', 'turn', 'turn:lanes']
 
 # lane, position, agent_id
 VehicleInfo = list[int, float, int]
+
+
+@dataclass
+class Lane:
+    end_node: int
 
 
 class RoadNetwork:
@@ -39,6 +47,9 @@ class RoadNetwork:
             data = node[1]
             data['pos'] = np.asarray([data['x'], data['y'], 0.0])
 
+            if 'turn:lanes' in data:
+                pass
+
             # add to exit and entry nodes, if applicable
             if self._road_graph.out_degree(node_id) == 0:
                 self.exit_nodes.append(node_id)
@@ -53,8 +64,9 @@ class RoadNetwork:
         for road in self._road_graph.edges(data=True):
             data = road[2]
 
+            # get lane counts
             if 'lanes' not in data:
-                data['lanes'] = 1
+                data['lanes'] = 0
             elif isinstance(data['lanes'], list):
                 data['lanes'] = len(data['lanes'])
             elif isinstance(data['lanes'], str):
@@ -63,7 +75,21 @@ class RoadNetwork:
             origin_pos = self._road_graph.nodes(data=True)[road[0]]['pos']
             target_pos = self._road_graph.nodes(data=True)[road[1]]['pos']
 
+            # calculate out vertex direction orderings
+            endpoint_neighbors = self._road_graph.neighbors(road[1])
+            rel_positions: dict[int, np.ndarray] = {}
+            for neighbor in endpoint_neighbors:
+                rel_positions[neighbor] = self._road_graph.nodes(data=True)[neighbor]['pos'] - origin_pos
+
             displacement = target_pos - origin_pos
+            perpendicular_displacement = np.cross([[0, 1], [-1, 0]], displacement)
+
+            data['out_vertex_ordering'] = []
+            # add the sorted vertex direction orderings to the road
+            for neighbor in endpoint_neighbors:
+                insort_left(data['out_vertex_ordering'], neighbor,
+                            key=lambda neighbor: np.dot(rel_positions[neighbor], perpendicular_displacement))
+
             data['direction_vector'] = displacement / np.linalg.norm(displacement)
 
     def roads(self):
@@ -80,12 +106,12 @@ class RoadNetwork:
     #     vehicle.pos += displacement
     #
     #     vehicle info at 1: position along a road's lane
-        # road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
-        # vehicle_info = road[0]['vehicles']
-        # vehicle_info_idx = vehicle_info.index([vehicle.lane, vehicle.road_pos, vehicle.unique_id])
-        # vehicle_info[vehicle_info_idx][1] += np.linalg.norm(displacement)
-        #
-        # vehicle.road_pos = vehicle_info[vehicle_info_idx][1]
+    # road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
+    # vehicle_info = road[0]['vehicles']
+    # vehicle_info_idx = vehicle_info.index([vehicle.lane, vehicle.road_pos, vehicle.unique_id])
+    # vehicle_info[vehicle_info_idx][1] += np.linalg.norm(displacement)
+    #
+    # vehicle.road_pos = vehicle_info[vehicle_info_idx][1]
 
     # def change_road(self, vehicle: VehicleAgent, new_road_id: tuple[int, int]):
     #     old_road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
