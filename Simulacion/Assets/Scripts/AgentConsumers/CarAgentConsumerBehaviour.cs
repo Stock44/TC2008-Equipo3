@@ -22,14 +22,15 @@ namespace AgentConsumers
         {
             GameObject carObject;
 
+            // GameObject carObject = Instantiate(carPrefab, transform);
             if (_carObjects.ContainsKey(message.id))
             {
-                carObject = _carObjects[message.id];
+            carObject = _carObjects[message.id];
             }
             else
             {
-                carObject = Instantiate(carPrefab, this.transform);
-                _carObjects.Add(message.id, carObject);
+            carObject = Instantiate(carPrefab, this.transform);
+            _carObjects.Add(message.id, carObject);
             }
 
             var newPosition = new Vector3(message.x, 0, message.y);
