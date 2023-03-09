@@ -176,9 +176,3 @@ class IDMModel(Model):
                 'y': car_pos[1],
             })
 
-
-if __name__ == '__main__':
-    model = IDMModel()
-    while True:
-        model.step()
-        time.sleep(0.2)

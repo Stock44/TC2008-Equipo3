@@ -1,12 +1,12 @@
+from math import floor
 from typing import Optional
-
 import networkx as nx
 import numpy as np
 import osmnx as ox
 import osmnx.plot
 import osmnx.settings
 from scipy.spatial.distance import cdist
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from bisect import insort_left
 
 from model.vehicle_agent import VehicleAgent
@@ -20,7 +20,17 @@ VehicleInfo = list[int, float, int]
 
 @dataclass
 class Lane:
-    end_node: int
+    next_nodes: list[tuple[int, int]] = field(default_factory=list)  # pair of node_id and lane no.
+
+
+def iterate_from_edges(lst: list):
+    try:
+        half_length: int = len(lst) // 2
+        for idx in range(half_length):
+            yield lst[idx]
+            yield lst[len(lst) - 1 - half_length]
+    except IndexError:
+        raise StopIteration
 
 
 class RoadNetwork:
@@ -47,9 +57,6 @@ class RoadNetwork:
             data = node[1]
             data['pos'] = np.asarray([data['x'], data['y'], 0.0])
 
-            if 'turn:lanes' in data:
-                pass
-
             # add to exit and entry nodes, if applicable
             if self._road_graph.out_degree(node_id) == 0:
                 self.exit_nodes.append(node_id)
@@ -60,37 +67,148 @@ class RoadNetwork:
             else:
                 data['endpoint'] = 0
 
+        self._add_road_info()
+        self._add_lane_connections()
+
+    def _add_road_info(self):
         # add vehicle info to each edge
         for road in self._road_graph.edges(data=True):
             data = road[2]
 
             # get lane counts
             if 'lanes' not in data:
-                data['lanes'] = 0
+                lane_count = 1
             elif isinstance(data['lanes'], list):
-                data['lanes'] = len(data['lanes'])
+                lane_count = len(data['lanes'])
             elif isinstance(data['lanes'], str):
-                data['lanes'] = int(data['lanes'])
+                lane_count = int(data['lanes'])
+            else:
+                lane_count = 1
+
+            data['lane_count'] = lane_count
+            data['lanes'] = []
 
             origin_pos = self._road_graph.nodes(data=True)[road[0]]['pos']
             target_pos = self._road_graph.nodes(data=True)[road[1]]['pos']
 
             # calculate out vertex direction orderings
-            endpoint_neighbors = self._road_graph.neighbors(road[1])
             rel_positions: dict[int, np.ndarray] = {}
-            for neighbor in endpoint_neighbors:
+            for neighbor in self._road_graph.neighbors(road[1]):
                 rel_positions[neighbor] = self._road_graph.nodes(data=True)[neighbor]['pos'] - origin_pos
+                rel_positions[neighbor] = rel_positions[neighbor][:2]
 
             displacement = target_pos - origin_pos
-            perpendicular_displacement = np.cross([[0, 1], [-1, 0]], displacement)
+            perpendicular_displacement = np.cross([[0, 1], [-1, 0]], displacement[:2])
 
-            data['out_vertex_ordering'] = []
+            data['out_node_ordering'] = []
             # add the sorted vertex direction orderings to the road
-            for neighbor in endpoint_neighbors:
-                insort_left(data['out_vertex_ordering'], neighbor,
+            for neighbor in self._road_graph.neighbors(road[1]):
+                insort_left(data['out_node_ordering'], neighbor,
                             key=lambda neighbor: np.dot(rel_positions[neighbor], perpendicular_displacement))
 
             data['direction_vector'] = displacement / np.linalg.norm(displacement)
+
+    def _1_to_1_lanes(self, intersection_node: int, out_node_ordering: list[int]):
+        lanes = []
+        for out_node_id in out_node_ordering:
+            # map each lane of this out road
+            for out_lane in range(self.lane_count((intersection_node, out_node_id))):
+                lanes.append(Lane([(out_node_id, out_lane)]))
+
+        return lanes
+
+    def _1_to_1_lanes_centered(self, intersection_node: int, out_node_ordering: list[int], centered_lane_count: int,
+                               total_lanes: int) -> (list[Lane], int):
+        lane_offset = (total_lanes - centered_lane_count) // 2
+        lanes = []
+        # prepare in lanes
+        for _ in range(lane_offset):
+            lanes.append(Lane())
+
+        lanes += self._1_to_1_lanes(intersection_node, out_node_ordering)
+
+        for _ in range(total_lanes - centered_lane_count - lane_offset):
+            lanes.append(Lane())
+
+        return lanes, lane_offset
+
+    def _add_lane_connections(self):
+        roads = self._road_graph.edges(data=True)
+        for origin, target, data in roads:
+            in_lanes = data['lane_count']
+            out_node_ordering = data['out_node_ordering']
+            total_out_lanes = sum(
+                [self.lane_count((target, out_node_id)) for out_node_id in out_node_ordering])
+
+            lanes: list[Lane] = data['lanes']
+
+            if total_out_lanes == 0:
+                continue
+            elif total_out_lanes == in_lanes:
+                lanes = self._1_to_1_lanes(target, out_node_ordering)
+                data['lanes'] = lanes
+            elif total_out_lanes > in_lanes:
+                # if there are more output lanes than input lanes
+                widest_out_node_id = max(out_node_ordering,
+                                         key=lambda out_node_id, intr_node=target: self.lane_count(
+                                             (intr_node, out_node_id)))
+                max_lane_count = self.lane_count((target, widest_out_node_id))
+                widest_out_nodes_ids = list([node_id for node_id in out_node_ordering if
+                                             self.lane_count((target, node_id)) == max_lane_count])
+                midpoint = len(widest_out_nodes_ids) // 2
+                central_out_node = widest_out_nodes_ids[midpoint]
+                central_out_node_idx = out_node_ordering.index(central_out_node)
+
+                # prepare in lanes
+                if in_lanes <= max_lane_count:
+                    lanes: list[Lane] = []
+
+                    offset = (max_lane_count - in_lanes) // 2
+
+                    for lane in range(in_lanes):
+                        lanes.append(Lane([(central_out_node, lane + offset)]))
+
+                else:  # in_lanes > max_lane_count
+
+                    offset = (in_lanes - max_lane_count) // 2
+                    for lane in range(total_out_lanes - in_lanes - offset):
+                        lanes.append(Lane([]))
+                    lanes += self._1_to_1_lanes(target, [central_out_node])
+
+                for out_node_idx in range(0, central_out_node_idx):
+                    lanes[0].next_nodes.append((out_node_ordering[out_node_idx], 0))
+
+                for out_node_idx in range(central_out_node_idx + 1, len(out_node_ordering)):
+                    lanes[-1].next_nodes.append((out_node_ordering[out_node_idx], 0))
+
+                # else:
+                #     for lane in range(in_lanes):
+                #         lanes.append(Lane([(central_out_node, lane)]))
+                #
+                data['lanes'] = lanes
+                pass
+            else:  # total_out_lanes < lane_count
+                # if there are more input lanes than output lanes
+
+                # start in the central input lanes
+                lanes, lane_offset = self._1_to_1_lanes_centered(target, out_node_ordering, total_out_lanes, in_lanes)
+
+                # map extreme input lanes to extreme output roads
+                # first map leftmost lanes to leftmost road
+                for in_lane in range(lane_offset):
+                    out_node_id = out_node_ordering[0]
+                    lanes[in_lane].next_nodes.append((out_node_id, 0))
+
+                # then map rightmost lanes to rightmost road
+                for in_lane in range(lane_offset + total_out_lanes, in_lanes):
+                    out_node_id = out_node_ordering[-1]
+                    out_road_lanes = self.lane_count((target, out_node_id))
+                    lanes[in_lane].next_nodes.append((out_node_id, out_road_lanes - 1))
+
+                data['lanes'] = lanes
+
+    def lane_count(self, road_id: tuple[int, int]) -> int:
+        return self._road_graph[road_id[0]][road_id[1]][0]['lane_count']
 
     def roads(self):
         return self._road_graph.edges(data=True)

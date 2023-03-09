@@ -1,43 +1,11 @@
 import time
 
-from mesa.visualization.ModularVisualization import ModularServer
-from mesa.visualization.UserParam import Slider
-from mesa.visualization.modules import CanvasGrid, ChartModule
-from .cross_road_model import CrossRoadModel
-from .portrayal import portray_agent
+from model.idm_model import IDMModel
 
-NUM_CARS = 50
-HALF_LENGTH = 20
-TRAFFIC_TIMER = 10
-# CAR_TURNING_RATE = 0.5
-MAX_ITERATIONS = 500
-
-pixel_ratio = 10
-
-model_params = {
-    'num_agents': Slider("Number of cars", NUM_CARS, 5, 200, 5),
-    'half_length': Slider("Half length", HALF_LENGTH, 5, 50, 5),
-    'traffic_time': Slider("Traffic timer", TRAFFIC_TIMER, 5, 100, 5),
-    # 'car_turning_rate': Slider("Turning rate", CAR_TURNING_RATE, 0.0, 1.0, 0.1)
-}
-
-model = CrossRoadModel('localhost:9092', half_length=20, traffic_time=5, road_lanes=3)
-
-tick_duration = 0.5
+model = IDMModel()
 while True:
-    begin = time.time()
-
     model.step()
-
-    model.send_states()
-
-    delta_t = time.time() - begin
-
-    if delta_t < tick_duration:
-        time.sleep(tick_duration - delta_t)
-    else:
-        print("ticks running behind by %f s!" % (delta_t - tick_duration))
-
+    time.sleep(0.2)
 # length = model_params['half_length'].value * 2
 # canvas_element = CanvasGrid(
 #     portray_agent, length, length,
