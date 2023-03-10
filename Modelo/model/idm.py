@@ -12,51 +12,47 @@ class IDMParameters:
     comfortable_deceleration: float = 1.5
 
 
+@np.errstate(all='raise')
 def calculate_idm_free_accelerations(vehicle_speeds: np.ndarray,
-                                     params: IDMParameters = IDMParameters()):
-    """
-    Calculate the IDM acceleration when there are no obstacles on the road (the car is free to accelerate to whatever
-    speed it wants).
-    :param vehicle_velocities: 4D array of vehicle velocity vectors
-    :param params: parameters of the IDM model
-    :return:
-    """
-    velocity_factors = (vehicle_speeds / params.desired_speed) ** params.acceleration_reduction_factor
+                                     desired_speeds: np.ndarray, maximum_accelerations: np.ndarray,
+                                     acceleration_reduction_factor: float = 4.0):
+    try:
+        velocity_factors = (vehicle_speeds / desired_speeds) ** acceleration_reduction_factor
+    except FloatingPointError:
+        velocity_factors = np.zeros(shape=vehicle_speeds.shape)
 
-    accelerations = params.maximum_acceleration * (1 - velocity_factors)
+    accelerations = maximum_accelerations * (1 - velocity_factors)
 
     return accelerations
 
 
+@np.errstate(all='raise')
 def calculate_idm_accelerations(vehicle_positions: np.ndarray, vehicle_speeds: np.ndarray,
                                 next_vehicle_positions: np.ndarray, next_vehicle_speeds: np.ndarray,
-                                params: IDMParameters = IDMParameters()):
-    """
-    Calculate IDM accelerations
-    :param vehicle_positions:
-    :param vehicle_speeds:
-    :param next_vehicle_positions:
-    :param next_vehicle_speeds:
-    :param params:
-    :return:
-    """
-    velocity_factors = (vehicle_speeds / params.desired_speed) ** params.acceleration_reduction_factor
+                                desired_speeds: np.ndarray, minimum_safety_gaps: np.ndarray,
+                                time_safety_gaps: np.ndarray, maximum_accelerations: np.ndarray,
+                                comfortable_decelerations: np.ndarray, acceleration_reduction_factor: float = 4.0):
+    try:
+        velocity_factors = (vehicle_speeds / desired_speeds) ** acceleration_reduction_factor
+    except FloatingPointError:
+        velocity_factors = np.zeros(vehicle_speeds.shape)
 
     delta_velocities = vehicle_speeds - next_vehicle_speeds
 
-    dynamic_gap_factors = (vehicle_speeds * delta_velocities) / (
-            2 * np.sqrt(params.maximum_acceleration * params.comfortable_deceleration))
+    try:
+        dynamic_gap_factors = (vehicle_speeds * delta_velocities) / (
+                2 * np.sqrt(maximum_accelerations * comfortable_decelerations))
+    except FloatingPointError:
+        dynamic_gap_factors = np.zeros(vehicle_speeds.shape)
 
-    time_gap_factors = vehicle_speeds * params.time_safety_gap
-
-    desired_gap = params.minimum_safety_gap + np.maximum(0.0, time_gap_factors + dynamic_gap_factors)
-
+    time_gap_factors = vehicle_speeds * time_safety_gaps
+    desired_gap = minimum_safety_gaps + np.maximum(0.0, time_gap_factors + dynamic_gap_factors)
     current_gaps = next_vehicle_positions - vehicle_positions
-
-    gap_factor = (desired_gap / current_gaps) ** 2
-
-    accelerations = params.maximum_acceleration * (1 - velocity_factors - gap_factor)
-
+    try:
+        gap_factor = (desired_gap / current_gaps) ** 2
+    except FloatingPointError:
+        gap_factor = np.zeros(vehicle_speeds.shape)
+    accelerations = maximum_accelerations * (1 - velocity_factors - gap_factor)
     return accelerations
 
 # class IDMVehicleAgent(VehicleAgent):

@@ -9,7 +9,7 @@ from scipy.spatial.distance import cdist
 from dataclasses import dataclass, field
 from bisect import insort_left
 
-from model.vehicle_agent import VehicleAgent
+from model.idm_vehicle_agent import IDMVehicleAgent
 
 ox.settings.use_cache = True
 ox.settings.useful_tags_way += ['layer', 'turn', 'turn:lanes']
@@ -46,7 +46,7 @@ class RoadNetwork:
         crs_string = '+proj=tmerc +lat_0=%f +lon_0=%f +k_0=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs'
         self._road_graph = ox.project_graph(self._road_graph, to_crs=crs_string % (center_parallel, center_meridian))
 
-        self._vehicles: dict[int, VehicleAgent] = dict()
+        self._vehicles: dict[int, IDMVehicleAgent] = dict()
 
         # gather exit and entry nodes
         self.exit_nodes = []
@@ -181,12 +181,7 @@ class RoadNetwork:
                 for out_node_idx in range(central_out_node_idx + 1, len(out_node_ordering)):
                     lanes[-1].next_nodes.append((out_node_ordering[out_node_idx], 0))
 
-                # else:
-                #     for lane in range(in_lanes):
-                #         lanes.append(Lane([(central_out_node, lane)]))
-                #
                 data['lanes'] = lanes
-                pass
             else:  # total_out_lanes < lane_count
                 # if there are more input lanes than output lanes
 
@@ -206,6 +201,21 @@ class RoadNetwork:
                     lanes[in_lane].next_nodes.append((out_node_id, out_road_lanes - 1))
 
                 data['lanes'] = lanes
+
+    def lanes(self, road_id: tuple[int, int]) -> list[Lane]:
+        return self._road_graph[road_id[0]][road_id[1]][0]['lanes']
+
+    def lanes_to(self, road_id: tuple[int, int], out_node: int) -> list[int]:
+        # TODO maybe reimplement with a dict per road ?
+        lanes = self.lanes(road_id)
+
+        target_lanes = []
+        for idx, lane in enumerate(lanes):
+            for node, _ in lane.next_nodes:
+                if node == out_node:
+                    target_lanes.append(idx)
+
+        return target_lanes
 
     def lane_count(self, road_id: tuple[int, int]) -> int:
         return self._road_graph[road_id[0]][road_id[1]][0]['lane_count']
