@@ -1,4 +1,5 @@
 import json
+import math
 import random
 import time
 
@@ -21,7 +22,8 @@ def json_serializer(input_dict: dict[str, any]):
 
 
 class IDMModel(Model):
-    def __init__(self, max_vehicles=500, lane_switch_critical_accel=0.5):
+    def __init__(self, max_vehicles=2000, lane_safety_critical_accel=-1.5, lane_switch_accel_threshold=0.5,
+                 critical_obligatory_lane_change_dist=100):
         super().__init__()
         self.road_network = RoadNetwork(25.6759, 25.6682, -100.3481, -100.3582)
         self.schedule = SimultaneousActivation(self)
@@ -29,7 +31,9 @@ class IDMModel(Model):
 
         self.max_vehicles = max_vehicles
 
-        self._lane_switch_critical_accel = lane_switch_critical_accel
+        self.lane_safety_critical_accel = lane_safety_critical_accel
+        self.lane_switch_accel_threshold = lane_switch_accel_threshold
+        self.critical_obligatory_lane_change_dist = critical_obligatory_lane_change_dist
 
         # vehicle listing
         self._vehicles: dict[int, IDMVehicleAgent] = {}
@@ -56,6 +60,7 @@ class IDMModel(Model):
 
         self._next_id = 0
         self._last_spawn_time = time.time()
+        self._last_lane_switch_step = time.time()
 
     def _vehicle_road_position_key(self, vehicle_id: int) -> float:
         return self._vehicles[vehicle_id].pos
@@ -129,6 +134,22 @@ class IDMModel(Model):
         self._vehicle_roads.pop(vehicle_id)
         self._vehicles.pop(vehicle_id)
 
+    def _change_vehicle_lane(self, vehicle: IDMVehicleAgent, new_lane: int, new_idx: int):
+        if new_lane < 0:
+            raise ValueError
+        vehicle_id = vehicle.unique_id
+        current_lane = self._vehicle_lanes[vehicle_id]
+        road_id = self._vehicle_roads[vehicle_id]
+
+        print(f'vehicle #{vehicle_id} changing from lane {current_lane} to {new_lane}')
+
+        lane_vehicles = self._road_lanes_vehicles[road_id][current_lane]
+        lane_vehicles.remove(vehicle.unique_id)
+
+        new_lane_vehicles = self._road_lanes_vehicles[road_id][new_lane]
+        new_lane_vehicles.insert(new_idx, vehicle_id)
+        self._vehicle_lanes[vehicle_id] = new_lane
+
     def _place_vehicle(self, vehicle: IDMVehicleAgent, road_id: tuple[int, int], lane: int):
         vehicle.pos = 0.0
 
@@ -190,11 +211,132 @@ class IDMModel(Model):
             for idx, vehicle in enumerate(vehicles):
                 vehicle.acceleration = accelerations[idx]
 
+    def _evalate_vehicle_accel_delta(self, vehicle: IDMVehicleAgent, lane_vehicles: list[int], lane_idx: int):
+        if lane_idx + 2 < len(lane_vehicles):
+            next_vehicle_idx = lane_idx + 2
+            next_vehicle = self._vehicles[lane_vehicles[next_vehicle_idx]]
+            old_follower_new_accel = calculate_idm_accelerations([vehicle.pos], [vehicle.speed],
+                                                                 [next_vehicle.pos], [next_vehicle.speed],
+                                                                 [vehicle.desired_speed],
+                                                                 [vehicle.minimum_safety_gap],
+                                                                 [vehicle.time_safety_gap],
+                                                                 [vehicle.maximum_acceleration],
+                                                                 [vehicle.comfortable_deceleration])
+        else:
+            old_follower_new_accel = calculate_idm_free_accelerations([vehicle.speed],
+                                                                      [vehicle.desired_speed],
+                                                                      [vehicle.maximum_acceleration])
+        return old_follower_new_accel[0] - vehicle.acceleration
+
+    def _is_lane_switch_safe(self, vehicle: IDMVehicleAgent, new_lane_vehicles: list[int], new_idx: int) -> bool:
+        if len(new_lane_vehicles) != 0:
+            # check if there would be a new follower
+            if 0 < new_idx:
+                new_follower_id = new_lane_vehicles[new_idx - 1]
+                new_follower = self._vehicles[new_follower_id]
+                new_follower_accel = calculate_idm_accelerations([new_follower.pos], [new_follower.speed],
+                                                                 [vehicle.pos],
+                                                                 [vehicle.speed], [new_follower.desired_speed],
+                                                                 [new_follower.minimum_safety_gap],
+                                                                 [new_follower.time_safety_gap],
+                                                                 [new_follower.maximum_acceleration],
+                                                                 [new_follower.comfortable_deceleration])
+                # do the safety check
+                return new_follower_accel[0] > self.lane_safety_critical_accel
+        return True
+
+    def _evaluate_lane_switch(self, vehicle: IDMVehicleAgent, direction=1):
+        vehicle_id = vehicle.unique_id
+        road_id = self._vehicle_roads[vehicle_id]
+        road_lanes = self.road_network.lane_count(road_id)
+        lane = self._vehicle_lanes[vehicle_id]
+        new_lane = lane + direction
+
+        if not (0 < new_lane < road_lanes):
+            # no lane in this direction
+            return
+
+        road_lane_vehicles = self._road_lanes_vehicles[road_id]
+        old_lane_vehicles = road_lane_vehicles[lane]
+        new_lane_vehicles = road_lane_vehicles[new_lane]
+
+        old_idx = self._vehicle_lane_index(vehicle)
+        new_idx = bisect_left(new_lane_vehicles, vehicle_id, key=self._vehicle_road_position_key)
+
+        old_follower: IDMVehicleAgent | None = None
+        new_follower: IDMVehicleAgent | None = None
+
+        # if there are vehicles in the new lane
+        if not self._is_lane_switch_safe(vehicle, new_lane_vehicles, new_idx):
+            print("is unsafe")
+            # print("can't switch lane, new follower accel too big")
+            return
+
+        # passed safety check, execute MOBIL
+        # get old follower
+        if len(old_lane_vehicles) != 0 and 0 < old_idx:
+            old_follower_id = old_lane_vehicles[old_idx - 1]
+            old_follower = self._vehicles[old_follower_id]
+
+        # values for current vehicle
+        old_accel = vehicle.acceleration
+        if old_idx < len(old_lane_vehicles) - 1:
+            next_vehicle_id = old_lane_vehicles[old_idx]
+            next_vehicle = self._vehicles[next_vehicle_id]
+            new_accel = calculate_idm_accelerations([vehicle.pos], [vehicle.speed], [next_vehicle.pos],
+                                                    [next_vehicle.speed], [vehicle.desired_speed],
+                                                    [vehicle.minimum_safety_gap], [vehicle.time_safety_gap],
+                                                    [vehicle.maximum_acceleration],
+                                                    [vehicle.comfortable_deceleration])
+        else:
+            new_accel = calculate_idm_free_accelerations([vehicle.speed], [vehicle.desired_speed],
+                                                         [vehicle.maximum_acceleration])
+
+        selfish_factor = new_accel - old_accel
+
+        cooperative_factor = 0.0
+
+        if old_follower is not None:
+            cooperative_factor += self._evalate_vehicle_accel_delta(old_follower, old_lane_vehicles, old_idx - 1)
+        if new_follower is not None:
+            cooperative_factor += self._evalate_vehicle_accel_delta(new_follower, new_lane_vehicles, new_idx - 1)
+
+        accels_factor = selfish_factor[0] + vehicle.politeness * cooperative_factor
+
+        target_lane = self._vehicle_target_lanes[vehicle_id]
+        road_length = self.road_network.road_length(road_id)
+        distance = road_length - vehicle.pos
+        if target_lane is not None and distance < self.critical_obligatory_lane_change_dist:
+            current_lane = self._vehicle_lanes[vehicle_id]
+            delta_lanes = target_lane - current_lane
+            if delta_lanes > 0:
+                multiplier = 1
+            elif delta_lanes < 0:
+                multiplier = -1
+            else:
+                multiplier = 0
+
+            exp_threshold = math.exp(self.lane_switch_accel_threshold)
+            inner = (distance * (1 - exp_threshold)) / self.critical_obligatory_lane_change_dist + exp_threshold
+            target_lane_factor = multiplier * math.log(inner)
+        else:
+            target_lane_factor = 0.0
+
+        switch_criterion = accels_factor + target_lane_factor * direction
+
+        if switch_criterion > self.lane_switch_accel_threshold:
+            self._change_vehicle_lane(vehicle, lane + direction, new_idx)
+
     def _lane_switch_step(self):
-        pass
-        # evaluate right lane switch
-        # for vehicle in self._vehicles:
-        #     new_follower
+        current_time = time.time()
+        if current_time - self._last_lane_switch_step < 2.0:
+            return
+        self._last_lane_switch_step = current_time
+        for vehicle in self._vehicles.values():
+            # right lane
+            self._evaluate_lane_switch(vehicle)
+            # left lane
+            self._evaluate_lane_switch(vehicle, -1)
 
     def _road_end_step(self):
         vehicles_to_remove: list[int] = []
@@ -206,7 +348,7 @@ class IDMModel(Model):
                 self._vehicle_route_segment[vehicle.unique_id] += 1
                 route_idx = self._vehicle_route_segment[vehicle.unique_id]
                 # if we're at the end of the road
-                if route_idx == len(route) - 1:
+                if route_idx > len(route) - 3:
                     vehicles_to_remove.append(vehicle_id)
                 else:  # we have at least one segment to go
                     current_lane_idx = self._vehicle_lanes[vehicle_id]
@@ -215,16 +357,18 @@ class IDMModel(Model):
                     current_road_end_node = route[route_idx]
                     next_end_node = route[route_idx + 1]
                     next_road = (current_road_end_node, next_end_node)
-                    next_lane = 0
                     if current_lane_idx == self._vehicle_target_lanes[vehicle_id]:
                         next_lane = next(
                             lane for out_node, lane in current_lane.next_nodes if out_node == next_end_node)
-                        print(f"switching road for vehicle #{vehicle.unique_id} to lane {next_lane}")
                     else:
+                        next_lane = 0
                         print(
                             f"vehicle #{vehicle.unique_id} missed its exit! on lane {current_lane_idx} but should be in {self._vehicle_target_lanes[vehicle_id]}")
                     self._place_vehicle(vehicle, next_road, next_lane)
-                    self._vehicle_target_lanes[vehicle_id] = None
+
+                    possible_lanes = self.road_network.lanes_to(next_road, route[route_idx + 2])
+                    target_lane = min(possible_lanes, key=lambda lane, cur_lane=current_lane_idx: abs(lane - cur_lane))
+                    self._vehicle_target_lanes[vehicle_id] = target_lane
 
         for vehicle_id in vehicles_to_remove:
             self._remove_vehicle(vehicle_id)
@@ -233,12 +377,12 @@ class IDMModel(Model):
         current_time = time.time()
         delta_spawn_t = current_time - self._last_spawn_time
 
-        probability = 0.5 * delta_spawn_t
+        probability = 2 * delta_spawn_t
 
         if len(self._vehicles) < self.max_vehicles and probability > random.random():
             self._last_spawn_time = current_time
             self._add_vehicle()
-            print("spawned vehicle")
+            # print("spawned vehicle")
 
         self._lane_switch_step()
 
@@ -249,19 +393,31 @@ class IDMModel(Model):
 
         for road_id, road_lanes_vehicles in self._road_lanes_vehicles.items():
             for lane_vehicles in road_lanes_vehicles:
-                road_length = self.road_network.road_length(road_id)
-
                 # always ensure this list is sorted, vehicle steps might have changed that
                 lane_vehicles.sort(key=self._vehicle_road_position_key)
 
         self._road_end_step()
 
-        for car in self._vehicles.values():
-            road = self._vehicle_roads[car.unique_id]
-            road_direction = self.road_network.direction_vector(road)
-            car_pos = self.road_network.node_position(road[0]) + car.pos * road_direction
+        for vehicle in self._vehicles.values():
+            lane_width = 1.5
+            road_id = self._vehicle_roads[vehicle.unique_id]
+            road_lanes = self.road_network.lane_count(road_id)
+
+            offset = (road_lanes // 2)
+            if road_lanes % 2 != 0:
+                offset += 0.5
+
+            offset -= road_lanes
+            offset *= lane_width
+
+            current_lane = self._vehicle_lanes[vehicle.unique_id]
+            offset += current_lane * lane_width
+
+            road_direction = self.road_network.direction_vector(road_id)
+            road_normal = self.road_network.normal_vector(road_id)
+            car_pos = self.road_network.node_position(road_id[0]) + vehicle.pos * road_direction + offset * road_normal
             self._kafka_producer.send('cars', {
-                'id': car.unique_id,
+                'id': vehicle.unique_id,
                 'x': car_pos[0],
                 'y': car_pos[1],
             })

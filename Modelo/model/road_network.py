@@ -107,6 +107,8 @@ class RoadNetwork:
                             key=lambda neighbor: np.dot(rel_positions[neighbor], perpendicular_displacement))
 
             data['direction_vector'] = displacement / np.linalg.norm(displacement)
+            data['normal_vector'] = np.cross(np.asarray([[0, 1], [-1, 0]]), data['direction_vector'][:2])
+            data['normal_vector'] = np.append(data['normal_vector'], data['direction_vector'][2])
 
     def _1_to_1_lanes(self, intersection_node: int, out_node_ordering: list[int]):
         lanes = []
@@ -265,6 +267,9 @@ class RoadNetwork:
 
     def road_length(self, road_id: tuple[int, int]) -> float:
         return self._road_graph[road_id[0]][road_id[1]][0]['length']
+
+    def normal_vector(self, road_id: tuple[int, int]) -> np.ndarray:
+        return self._road_graph[road_id[0]][road_id[1]][0]['normal_vector']
 
     def direction_vector(self, road_id: tuple[int, int]) -> np.ndarray:
         return self._road_graph[road_id[0]][road_id[1]][0]['direction_vector']

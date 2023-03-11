@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import numpy as np
+from numpy.typing import ArrayLike
 
 
 @dataclass
@@ -13,46 +14,46 @@ class IDMParameters:
 
 
 @np.errstate(all='raise')
-def calculate_idm_free_accelerations(vehicle_speeds: np.ndarray,
-                                     desired_speeds: np.ndarray, maximum_accelerations: np.ndarray,
+def calculate_idm_free_accelerations(vehicle_speeds: ArrayLike,
+                                     desired_speeds: ArrayLike, maximum_accelerations: ArrayLike,
                                      acceleration_reduction_factor: float = 4.0):
     try:
-        velocity_factors = (vehicle_speeds / desired_speeds) ** acceleration_reduction_factor
+        velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
     except FloatingPointError:
-        velocity_factors = np.zeros(shape=vehicle_speeds.shape)
+        velocity_factors = np.zeros(shape=np.shape(vehicle_speeds))
 
-    accelerations = maximum_accelerations * (1 - velocity_factors)
+    accelerations = np.multiply(maximum_accelerations, np.subtract(1, velocity_factors))
 
     return accelerations
 
 
 @np.errstate(all='raise')
-def calculate_idm_accelerations(vehicle_positions: np.ndarray, vehicle_speeds: np.ndarray,
-                                next_vehicle_positions: np.ndarray, next_vehicle_speeds: np.ndarray,
-                                desired_speeds: np.ndarray, minimum_safety_gaps: np.ndarray,
-                                time_safety_gaps: np.ndarray, maximum_accelerations: np.ndarray,
-                                comfortable_decelerations: np.ndarray, acceleration_reduction_factor: float = 4.0):
+def calculate_idm_accelerations(vehicle_positions: ArrayLike, vehicle_speeds: ArrayLike,
+                                next_vehicle_positions: ArrayLike, next_vehicle_speeds: ArrayLike,
+                                desired_speeds: ArrayLike, minimum_safety_gaps: ArrayLike,
+                                time_safety_gaps: ArrayLike, maximum_accelerations: ArrayLike,
+                                comfortable_decelerations: ArrayLike, acceleration_reduction_factor: float = 4.0):
     try:
-        velocity_factors = (vehicle_speeds / desired_speeds) ** acceleration_reduction_factor
+        velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
     except FloatingPointError:
-        velocity_factors = np.zeros(vehicle_speeds.shape)
+        velocity_factors = np.zeros(np.shape(vehicle_speeds))
 
-    delta_velocities = vehicle_speeds - next_vehicle_speeds
+    delta_velocities = np.subtract(vehicle_speeds, next_vehicle_speeds)
 
     try:
-        dynamic_gap_factors = (vehicle_speeds * delta_velocities) / (
-                2 * np.sqrt(maximum_accelerations * comfortable_decelerations))
+        dynamic_gap_factors = np.divide(np.multiply(vehicle_speeds, delta_velocities), (
+                2 * np.sqrt(np.multiply(maximum_accelerations, comfortable_decelerations))))
     except FloatingPointError:
-        dynamic_gap_factors = np.zeros(vehicle_speeds.shape)
+        dynamic_gap_factors = np.zeros(np.shape(vehicle_speeds))
 
-    time_gap_factors = vehicle_speeds * time_safety_gaps
-    desired_gap = minimum_safety_gaps + np.maximum(0.0, time_gap_factors + dynamic_gap_factors)
-    current_gaps = next_vehicle_positions - vehicle_positions
+    time_gap_factors = np.multiply(vehicle_speeds, time_safety_gaps)
+    desired_gap = np.add(minimum_safety_gaps, np.maximum(0.0, np.add(time_gap_factors, dynamic_gap_factors)))
+    current_gaps = np.subtract(next_vehicle_positions, vehicle_positions)
     try:
-        gap_factor = (desired_gap / current_gaps) ** 2
+        gap_factor = np.power(np.divide(desired_gap, current_gaps), 2)
     except FloatingPointError:
-        gap_factor = np.zeros(vehicle_speeds.shape)
-    accelerations = maximum_accelerations * (1 - velocity_factors - gap_factor)
+        gap_factor = np.zeros(np.shape(vehicle_speeds))
+    accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
     return accelerations
 
 # class IDMVehicleAgent(VehicleAgent):
