@@ -5,6 +5,7 @@ import numpy as np
 import osmnx as ox
 import osmnx.plot
 import osmnx.settings
+from kafka import KafkaProducer
 from scipy.spatial.distance import cdist
 from dataclasses import dataclass, field
 from bisect import insort_left
@@ -36,7 +37,7 @@ def iterate_from_edges(lst: list):
 class RoadNetwork:
     def __init__(self, north, south, east, west):
         # initialize and project lat and lon to coords
-        self._road_graph = ox.graph_from_bbox(north, south, east, west, network_type='drive', clean_periphery=True)
+        self._road_graph = ox.graph_from_bbox(north, south, east, west, network_type='drive', clean_periphery=True, simplify=False)
 
         center_meridian = (west + east) / 2
         center_parallel = (north + south) / 2
@@ -70,6 +71,20 @@ class RoadNetwork:
         self._add_road_info()
         self._add_lane_connections()
 
+    def send_to_kafka(self, producer: KafkaProducer):
+        for road in self._road_graph.edges(data=True):
+            road_id = (road[0], road[1])
+            start_pos = self.node_position(road[0])
+            end_pos = self.node_position(road[1])
+            producer.send('roads', {
+                'start_x': start_pos[0],
+                'start_y': start_pos[1],
+                'end_x': end_pos[0],
+                'end_y': end_pos[1],
+                'length': self.road_length(road_id),
+                'lane_count': self.lane_count(road_id),
+            })
+
     def _add_road_info(self):
         # add vehicle info to each edge
         for road in self._road_graph.edges(data=True):
@@ -98,6 +113,7 @@ class RoadNetwork:
                 rel_positions[neighbor] = rel_positions[neighbor][:2]
 
             displacement = target_pos - origin_pos
+            data['length'] = np.linalg.norm(displacement)
             perpendicular_displacement = np.cross([[0, 1], [-1, 0]], displacement[:2])
 
             data['out_node_ordering'] = []

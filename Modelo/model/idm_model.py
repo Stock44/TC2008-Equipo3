@@ -23,17 +23,21 @@ def json_serializer(input_dict: dict[str, any]):
 
 class IDMModel(Model):
     def __init__(self, max_vehicles=2000, lane_safety_critical_accel=-1.5, lane_switch_accel_threshold=0.5,
-                 critical_obligatory_lane_change_dist=100):
+                 critical_obligatory_lane_change_dist=100, lane_width=1.5):
         super().__init__()
         self.road_network = RoadNetwork(25.6759, 25.6682, -100.3481, -100.3582)
         self.schedule = SimultaneousActivation(self)
         self._kafka_producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=json_serializer)
+
+        self.road_network.send_to_kafka(self._kafka_producer)
 
         self.max_vehicles = max_vehicles
 
         self.lane_safety_critical_accel = lane_safety_critical_accel
         self.lane_switch_accel_threshold = lane_switch_accel_threshold
         self.critical_obligatory_lane_change_dist = critical_obligatory_lane_change_dist
+
+        self.lane_width = lane_width
 
         # vehicle listing
         self._vehicles: dict[int, IDMVehicleAgent] = {}
@@ -118,6 +122,9 @@ class IDMModel(Model):
         self._place_vehicle(new_vehicle, initial_road, 0)
 
         self.schedule.add(new_vehicle)
+        self._kafka_producer.send('vehicle_creations', value={
+            'id': new_vehicle.unique_id,
+        })
 
     def _remove_vehicle(self, vehicle_id: int):
         print("removed vehicle")
@@ -133,6 +140,10 @@ class IDMModel(Model):
         lane_vehicles.remove(vehicle_id)
         self._vehicle_roads.pop(vehicle_id)
         self._vehicles.pop(vehicle_id)
+
+        self._kafka_producer.send('vehicle_deletions', value={
+            'id': vehicle_id,
+        })
 
     def _change_vehicle_lane(self, vehicle: IDMVehicleAgent, new_lane: int, new_idx: int):
         if new_lane < 0:
@@ -329,7 +340,7 @@ class IDMModel(Model):
 
     def _lane_switch_step(self):
         current_time = time.time()
-        if current_time - self._last_lane_switch_step < 2.0:
+        if current_time - self._last_lane_switch_step < 1.0:
             return
         self._last_lane_switch_step = current_time
         for vehicle in self._vehicles.values():
@@ -399,7 +410,6 @@ class IDMModel(Model):
         self._road_end_step()
 
         for vehicle in self._vehicles.values():
-            lane_width = 1.5
             road_id = self._vehicle_roads[vehicle.unique_id]
             road_lanes = self.road_network.lane_count(road_id)
 
@@ -408,16 +418,20 @@ class IDMModel(Model):
                 offset += 0.5
 
             offset -= road_lanes
-            offset *= lane_width
+            offset *= self.lane_width
 
             current_lane = self._vehicle_lanes[vehicle.unique_id]
-            offset += current_lane * lane_width
+            offset += current_lane * self.lane_width
 
             road_direction = self.road_network.direction_vector(road_id)
             road_normal = self.road_network.normal_vector(road_id)
+
             car_pos = self.road_network.node_position(road_id[0]) + vehicle.pos * road_direction + offset * road_normal
-            self._kafka_producer.send('cars', {
+            self._kafka_producer.send('vehicle_positions', value={
                 'id': vehicle.unique_id,
                 'x': car_pos[0],
                 'y': car_pos[1],
+                'z': car_pos[2],
+                'acceleration': vehicle.acceleration,
+                'speed': vehicle.speed,
             })

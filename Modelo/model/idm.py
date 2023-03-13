@@ -1,16 +1,5 @@
-from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike
-
-
-@dataclass
-class IDMParameters:
-    desired_speed: float = 80.0
-    acceleration_reduction_factor: float = 4.0
-    minimum_safety_gap: float = 1.0
-    time_safety_gap: float = 1.0
-    maximum_acceleration: float = 1.0
-    comfortable_deceleration: float = 1.5
 
 
 @np.errstate(all='raise')

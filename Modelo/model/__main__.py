@@ -5,7 +5,6 @@ from model.idm_model import IDMModel
 model = IDMModel()
 while True:
     model.step()
-    time.sleep(0.2)
 # length = model_params['half_length'].value * 2
 # canvas_element = CanvasGrid(
 #     portray_agent, length, length,
