@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"Port":34093,"SolutionName":"Simulacion","ProtocolGuid":"ca1ba338-cca4-4e4d-8a49-b08f8e521651"}]
+=======
+[{"Port":34415,"SolutionName":"Simulacion","ProtocolGuid":"ca1ba338-cca4-4e4d-8a49-b08f8e521651"}]
+>>>>>>> ef55b47 (finished adding renderer implementation)

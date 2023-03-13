@@ -48,6 +48,8 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
 
     public GameObject vehiclePrefab;
 
+    private CancellationTokenSource _cts = new();
+
 
     public void Start()
     {
@@ -66,37 +68,43 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
 
     private void StartKafkaThread()
     {
-        _vehicleDeletionsConsumer = new(kafkaAddress, deletionTopicName, ReceiveDeletionMessage);
-        _vehicleCreationsConsumer = new(kafkaAddress, creationTopicName, ReceiveCreationMessage);
-        _vehicleUpdatesConsumer = new(kafkaAddress, updateTopicName, ReceiveUpdateMessage);
-        _creationThread = new Thread(_vehicleCreationsConsumer.StartKafkaListener);
-        _updateThread = new Thread(_vehicleUpdatesConsumer.StartKafkaListener);
-        _deletionThread = new Thread(_vehicleDeletionsConsumer.StartKafkaListener);
+        if (_creationThread is not { IsAlive: true })
+        {
+            _vehicleCreationsConsumer = new(kafkaAddress, creationTopicName, ReceiveCreationMessage);
+            _creationThread = new Thread(() => _vehicleCreationsConsumer.StartKafkaListener(_cts.Token));
+            _creationThread.Start();
+        }
 
+        if (_updateThread is not { IsAlive: true })
+        {
+            _vehicleUpdatesConsumer = new(kafkaAddress, updateTopicName, ReceiveUpdateMessage);
+            _updateThread = new Thread(() => _vehicleUpdatesConsumer.StartKafkaListener(_cts.Token));
+            _updateThread.Start();
+        }
 
-        _creationThread.Start();
-        _updateThread.Start();
-        _deletionThread.Start();
+        if (_deletionThread is not { IsAlive: true })
+        {
+            _vehicleDeletionsConsumer = new(kafkaAddress, deletionTopicName, ReceiveDeletionMessage);
+            _deletionThread = new Thread(() => _vehicleDeletionsConsumer.StartKafkaListener(_cts.Token));
+            _deletionThread.Start();
+        }
     }
 
     public void Update()
     {
-        VehicleCreationMessage creation;
-        while (_creationQueue.TryDequeue(out creation))
+        while (_creationQueue.TryDequeue(out var creation))
         {
             var newVehicle = Instantiate(vehiclePrefab, transform);
             _vehicleObjects.Add(creation.id, newVehicle);
         }
 
-        VehicleUpdateMessage update;
-        while (_updateQueue.TryDequeue(out update))
+        while (_updateQueue.TryDequeue(out var update))
         {
             var newPosition = new Vector3(update.x, update.z, update.y);
             _vehicleObjects[update.id].transform.position = newPosition;
         }
 
-        VehicleDeletionMessage deletion;
-        while (_deletionQueue.TryDequeue(out deletion))
+        while (_deletionQueue.TryDequeue(out var deletion))
         {
             _vehicleObjects.Remove(deletion.id);
         }
@@ -119,12 +127,26 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
 
     void StopKafkaThread()
     {
-        _creationThread.Abort();
-        _deletionThread.Abort();
-        _updateThread.Abort();
+        _creationQueue.Clear();
+        _deletionQueue.Clear();
+        _updateQueue.Clear();
 
-        _creationThread.Join();
-        _deletionThread.Join();
-        _updateThread.Join();
+        _cts.Cancel();
+        if (_creationThread.IsAlive)
+        {
+            _creationThread.Join();
+        }
+
+        if (_deletionThread.IsAlive)
+        {
+            _deletionThread.Join();
+        }
+
+        if (_updateThread.IsAlive)
+        {
+            _updateThread.Join();
+        }
+
+        _cts = new();
     }
 }

@@ -37,7 +37,11 @@ def iterate_from_edges(lst: list):
 class RoadNetwork:
     def __init__(self, north, south, east, west):
         # initialize and project lat and lon to coords
-        self._road_graph = ox.graph_from_bbox(north, south, east, west, network_type='drive', clean_periphery=True, simplify=False)
+        self._road_graph = ox.graph_from_bbox(north, south, east, west, network_type='drive', clean_periphery=True,
+                                              simplify=False)
+        self._buildings = ox.geometries_from_bbox(north, south, east, west, {
+            'building': True,
+        })
 
         center_meridian = (west + east) / 2
         center_parallel = (north + south) / 2
@@ -46,6 +50,7 @@ class RoadNetwork:
         # origin at the center meridian and parallel of bounding box
         crs_string = '+proj=tmerc +lat_0=%f +lon_0=%f +k_0=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs'
         self._road_graph = ox.project_graph(self._road_graph, to_crs=crs_string % (center_parallel, center_meridian))
+        self._buildings.to_crs(crs_string % (center_parallel, center_meridian), inplace=True)
 
         self._vehicles: dict[int, IDMVehicleAgent] = dict()
 
@@ -72,6 +77,16 @@ class RoadNetwork:
         self._add_lane_connections()
 
     def send_to_kafka(self, producer: KafkaProducer):
+        for _, building in self._buildings.iterrows():
+            polygon = building['geometry'].exterior.xy
+            geometry_x = list([value for value in polygon[0]])
+            geometry_y = list([value for value in polygon[1]])
+            producer.send('buildings', {
+                'geometry_x': geometry_x,
+                'geometry_y': geometry_y,
+                'levels': building['building:levels'],
+                'name': building['name'],
+            })
         for road in self._road_graph.edges(data=True):
             road_id = (road[0], road[1])
             start_pos = self.node_position(road[0])

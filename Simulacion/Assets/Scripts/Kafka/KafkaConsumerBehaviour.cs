@@ -18,6 +18,7 @@ namespace Kafka
         private ConcurrentQueue<TMessage> _messageQueue = new();
         public string kafkaAddress;
         public string topicName;
+        private CancellationTokenSource _cts = new();
 
         public void Start()
         {
@@ -39,8 +40,7 @@ namespace Kafka
             if (_kafkaThread is { IsAlive: true }) return;
 
             _consumer = new KafkaConsumer<TMessage>(kafkaAddress, topicName, ReceiveMessage);
-            _kafkaThread = new Thread(_consumer.StartKafkaListener);
-
+            _kafkaThread = new Thread(() => _consumer.StartKafkaListener(_cts.Token));
 
             _kafkaThread.Start();
         }
@@ -65,7 +65,7 @@ namespace Kafka
         {
             if (_kafkaThread.IsAlive)
             {
-                _kafkaThread.Abort();
+                _cts.Cancel();
                 _kafkaThread.Join();
             }
         }
