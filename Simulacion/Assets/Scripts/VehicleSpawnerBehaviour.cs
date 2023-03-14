@@ -13,6 +13,9 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
         public float x;
         public float y;
         public float z;
+        public float x_direction;
+        public float y_direction;
+        public float z_direction;
         public float acceleration;
         public float speed;
     }
@@ -100,8 +103,10 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
 
         while (_updateQueue.TryDequeue(out var update))
         {
-            var newPosition = new Vector3(update.x, update.z, update.y);
+            var newPosition = new Vector3(update.x, update.y, update.z);
             _vehicleObjects[update.id].transform.position = newPosition;
+            Vector3 rotation = new(update.x_direction, update.y_direction, update.z_direction);
+            _vehicleObjects[update.id].transform.rotation = Quaternion.LookRotation(rotation);
         }
 
         while (_deletionQueue.TryDequeue(out var deletion))

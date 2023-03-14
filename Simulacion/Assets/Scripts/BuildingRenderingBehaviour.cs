@@ -8,7 +8,7 @@ using UnityEngine.ProBuilder.MeshOperations;
 public class BuildingMessage
 {
     public List<float> geometry_x;
-    public List<float> geometry_y;
+    public List<float> geometry_z;
     public int levels;
     public string name;
 }
@@ -26,11 +26,11 @@ public class BuildingRenderingBehaviour : KafkaConsumerBehaviour<BuildingMessage
 
         List<Vector3> geometry = new();
 
-        for (int i = 0; i < message.geometry_y.Count; i++)
+        for (int i = 0; i < message.geometry_z.Count; i++)
         {
             var x = message.geometry_x[i];
-            var y = message.geometry_y[i];
-            geometry.Add(new Vector3(x, 0.0f, y));
+            var z = message.geometry_z[i];
+            geometry.Add(new Vector3(x, 0.0f, z));
         }
 
         var mesh = building.AddComponent<ProBuilderMesh>();

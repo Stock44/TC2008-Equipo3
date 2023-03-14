@@ -17,8 +17,7 @@ def calculate_idm_free_accelerations(vehicle_speeds: ArrayLike,
 
 
 @np.errstate(all='raise')
-def calculate_idm_accelerations(vehicle_positions: ArrayLike, vehicle_speeds: ArrayLike,
-                                next_vehicle_positions: ArrayLike, next_vehicle_speeds: ArrayLike,
+def calculate_idm_accelerations(vehicle_distances: ArrayLike, vehicle_speeds: ArrayLike, next_vehicle_speeds: ArrayLike,
                                 desired_speeds: ArrayLike, minimum_safety_gaps: ArrayLike,
                                 time_safety_gaps: ArrayLike, maximum_accelerations: ArrayLike,
                                 comfortable_decelerations: ArrayLike, acceleration_reduction_factor: float = 4.0):
@@ -37,12 +36,14 @@ def calculate_idm_accelerations(vehicle_positions: ArrayLike, vehicle_speeds: Ar
 
     time_gap_factors = np.multiply(vehicle_speeds, time_safety_gaps)
     desired_gap = np.add(minimum_safety_gaps, np.maximum(0.0, np.add(time_gap_factors, dynamic_gap_factors)))
-    current_gaps = np.subtract(next_vehicle_positions, vehicle_positions)
     try:
-        gap_factor = np.power(np.divide(desired_gap, current_gaps), 2)
+        gap_factor = np.power(np.divide(desired_gap, vehicle_distances), 2)
     except FloatingPointError:
         gap_factor = np.zeros(np.shape(vehicle_speeds))
-    accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
+    try:
+        accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
+    except FloatingPointError:
+        accelerations = np.zeros(np.shape(vehicle_speeds))
     return accelerations
 
 # class IDMVehicleAgent(VehicleAgent):

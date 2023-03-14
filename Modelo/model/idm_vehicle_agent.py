@@ -4,7 +4,7 @@ from mesa import Agent, Model
 
 
 class IDMVehicleAgent(Agent):
-    def __init__(self, unique_id: int, model: Model, width: float, length: float, desired_speed: float,
+    def __init__(self, unique_id: int, model: Model, length: float, desired_speed: float,
                  minimum_safety_gap: float, time_safety_gap: float, maximum_acceleration: float,
                  comfortable_deceleration: float, politeness: float):
         # agent init
@@ -26,7 +26,6 @@ class IDMVehicleAgent(Agent):
 
         # agent characteristics
         self.length = length
-        self.width = width
 
     def step(self) -> None:
         pass

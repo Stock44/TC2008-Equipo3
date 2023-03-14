@@ -35,13 +35,15 @@ def iterate_from_edges(lst: list):
 
 
 class RoadNetwork:
-    def __init__(self, north, south, east, west):
+    def __init__(self, north, south, east, west, lane_width=1.5):
         # initialize and project lat and lon to coords
         self._road_graph = ox.graph_from_bbox(north, south, east, west, network_type='drive', clean_periphery=True,
                                               simplify=False)
         self._buildings = ox.geometries_from_bbox(north, south, east, west, {
             'building': True,
         })
+
+        self.lane_width = lane_width
 
         center_meridian = (west + east) / 2
         center_parallel = (north + south) / 2
@@ -57,11 +59,26 @@ class RoadNetwork:
         # gather exit and entry nodes
         self.exit_nodes = []
         self.entry_nodes = []
+
+        self._add_node_info()
+        self._add_road_info()
+        self._add_lane_connections()
+
+    def _add_node_info(self):
         for node in self._road_graph.nodes(data=True):
             # pack coordinates into numpy array
             node_id = node[0]
             data = node[1]
-            data['pos'] = np.asarray([data['x'], data['y'], 0.0])
+
+            neighbors = self._road_graph.neighbors(node_id)
+            layer: int = 0
+            for neighbor_id in neighbors:
+                road_data = self._road_graph[node_id][neighbor_id][0]
+                if 'layer' in road_data:
+                    road_layer = int(road_data['layer'])
+                    layer = road_layer if road_layer > layer else layer
+
+            data['pos'] = np.asarray([data['x'], layer * 4.0, data['y']])
 
             # add to exit and entry nodes, if applicable
             if self._road_graph.out_degree(node_id) == 0:
@@ -73,32 +90,7 @@ class RoadNetwork:
             else:
                 data['endpoint'] = 0
 
-        self._add_road_info()
-        self._add_lane_connections()
 
-    def send_to_kafka(self, producer: KafkaProducer):
-        for _, building in self._buildings.iterrows():
-            polygon = building['geometry'].exterior.xy
-            geometry_x = list([value for value in polygon[0]])
-            geometry_y = list([value for value in polygon[1]])
-            producer.send('buildings', {
-                'geometry_x': geometry_x,
-                'geometry_y': geometry_y,
-                'levels': building['building:levels'],
-                'name': building['name'],
-            })
-        for road in self._road_graph.edges(data=True):
-            road_id = (road[0], road[1])
-            start_pos = self.node_position(road[0])
-            end_pos = self.node_position(road[1])
-            producer.send('roads', {
-                'start_x': start_pos[0],
-                'start_y': start_pos[1],
-                'end_x': end_pos[0],
-                'end_y': end_pos[1],
-                'length': self.road_length(road_id),
-                'lane_count': self.lane_count(road_id),
-            })
 
     def _add_road_info(self):
         # add vehicle info to each edge
@@ -115,31 +107,30 @@ class RoadNetwork:
             else:
                 lane_count = 1
 
-            data['lane_count'] = lane_count
-            data['lanes'] = []
+            data['lanes'] = list([Lane() for _ in range(lane_count)])
 
-            origin_pos = self._road_graph.nodes(data=True)[road[0]]['pos']
-            target_pos = self._road_graph.nodes(data=True)[road[1]]['pos']
+            start_pos = self.node_position(road[0])
+            target_pos = self.node_position(road[1])
 
             # calculate out vertex direction orderings
             rel_positions: dict[int, np.ndarray] = {}
             for neighbor in self._road_graph.neighbors(road[1]):
-                rel_positions[neighbor] = self._road_graph.nodes(data=True)[neighbor]['pos'] - origin_pos
-                rel_positions[neighbor] = rel_positions[neighbor][:2]
+                rel_positions[neighbor] = self._road_graph.nodes(data=True)[neighbor]['pos'] - start_pos
 
-            displacement = target_pos - origin_pos
-            data['length'] = np.linalg.norm(displacement)
-            perpendicular_displacement = np.cross([[0, 1], [-1, 0]], displacement[:2])
+            displacement = target_pos - start_pos
+            length = np.linalg.norm(displacement)
+            direction = displacement / length
+            normal = np.cross(direction, [0.0, 1.0, 0.0])
 
             data['out_node_ordering'] = []
             # add the sorted vertex direction orderings to the road
             for neighbor in self._road_graph.neighbors(road[1]):
                 insort_left(data['out_node_ordering'], neighbor,
-                            key=lambda neighbor: np.dot(rel_positions[neighbor], perpendicular_displacement))
+                            key=lambda neighbor: np.dot(rel_positions[neighbor], normal))
 
-            data['direction_vector'] = displacement / np.linalg.norm(displacement)
-            data['normal_vector'] = np.cross(np.asarray([[0, 1], [-1, 0]]), data['direction_vector'][:2])
-            data['normal_vector'] = np.append(data['normal_vector'], data['direction_vector'][2])
+            data['length'] = length
+            data['direction_vector'] = direction
+            data['normal_vector'] = normal
 
     def _1_to_1_lanes(self, intersection_node: int, out_node_ordering: list[int]):
         lanes = []
@@ -168,7 +159,7 @@ class RoadNetwork:
     def _add_lane_connections(self):
         roads = self._road_graph.edges(data=True)
         for origin, target, data in roads:
-            in_lanes = data['lane_count']
+            in_lanes = len(data['lanes'])
             out_node_ordering = data['out_node_ordering']
             total_out_lanes = sum(
                 [self.lane_count((target, out_node_id)) for out_node_id in out_node_ordering])
@@ -251,50 +242,13 @@ class RoadNetwork:
         return target_lanes
 
     def lane_count(self, road_id: tuple[int, int]) -> int:
-        return self._road_graph[road_id[0]][road_id[1]][0]['lane_count']
+        return len(self._road_graph[road_id[0]][road_id[1]][0]['lanes'])
 
     def roads(self):
         return self._road_graph.edges(data=True)
 
     def node_neighbors(self, node_id: int) -> list[int]:
         return self._road_graph.neighbors(node_id)
-
-    # def advance_vehicle(self, vehicle: VehicleAgent, delta_t: float):
-    #     displacement = vehicle.velocity * delta_t
-    #     self._move_vehicle(vehicle, displacement)
-
-    # def _move_vehicle(self, vehicle: VehicleAgent, displacement: np.ndarray):
-    #     vehicle.pos += displacement
-    #
-    #     vehicle info at 1: position along a road's lane
-    # road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
-    # vehicle_info = road[0]['vehicles']
-    # vehicle_info_idx = vehicle_info.index([vehicle.lane, vehicle.road_pos, vehicle.unique_id])
-    # vehicle_info[vehicle_info_idx][1] += np.linalg.norm(displacement)
-    #
-    # vehicle.road_pos = vehicle_info[vehicle_info_idx][1]
-
-    # def change_road(self, vehicle: VehicleAgent, new_road_id: tuple[int, int]):
-    #     old_road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
-    #     old_road[0]['vehicles'].remove([vehicle.lane, vehicle.road_pos, vehicle.unique_id])
-    #     vehicle.velocity = np.zeros(3)
-    #
-    #     self.place_vehicle(vehicle, new_road_id, 0, 0.0)
-
-    # def next_vehicle(self, vehicle: VehicleAgent) -> Optional[VehicleAgent]:
-    #     road = self._road_graph[vehicle.road_id[0]][vehicle.road_id[1]]
-    #     road_vehicles: SortedList[VehicleInfo] = road[0]['vehicles']
-    #
-    #     vehicle_info = [vehicle.lane, vehicle.road_pos, vehicle.unique_id]
-    #
-    #     next_vehicle_idx = road_vehicles.bisect_right(vehicle_info)
-    #
-    #     if next_vehicle_idx >= len(road_vehicles):
-    #         return
-    #
-    #     next_vehicle_id = road_vehicles[next_vehicle_idx][2]
-    #
-    #     return self._vehicles[next_vehicle_id]
 
     def road_length(self, road_id: tuple[int, int]) -> float:
         return self._road_graph[road_id[0]][road_id[1]][0]['length']
@@ -334,41 +288,56 @@ class RoadNetwork:
         :param lane:
         :return:
         """
-        direction = self.direction_vector(road_id)
+        road_lanes = self.lane_count(road_id)
+
+        offset = -(road_lanes // 2)
+
+        if lane < 0 or lane >= road_lanes:
+            raise ValueError
+
+        offset += lane
+
+        offset *= self.lane_width
+
         start_pos = self.node_position(road_id[0])
 
-        return start_pos + direction * position
+        road_direction = self.direction_vector(road_id)
+        road_normal = self.normal_vector(road_id)
 
-    # def place_vehicle(self, vehicle: VehicleAgent, road_id: tuple[int, int], lane: int = 0, position: float = 0.0):
-    #     """
-    #     Adds a vehicle agent to a particular spot in a road
-    #     :param vehicle: vehicle agent
-    #     :param road_id: id of the road, composed of road node enpoints' ids
-    #     :param lane: lane in the road to it. The road must have enough lanes
-    #     :param position: position along the road to put the agent. May be longer than the road
-    #     :return:
-    #     """
-    #     road = self._road_graph[road_id[0]][road_id[1]]
-    #
-    #     if lane >= int(road[0]['lanes']) or lane < 0:
-    #         raise RuntimeError("lane does not exist")
-    #
-    #     vehicle.road_pos = position
-    #     vehicle.lane = lane
-    #     vehicle.road_id = road_id
-    #     vehicle.pos = self._road_graph.nodes(data=True)[road_id[0]]['pos']
-    #
-    #     if position != 0.0:
-    #         direction = road['direction_vector']
-    #         self._move_vehicle(vehicle, direction * position)
-    #
-    #     self._road_graph[road_id[0]][road_id[1]][0]['vehicles'].add([lane, position, vehicle.unique_id])
-    #
-    #     self._vehicles[vehicle.unique_id] = vehicle
+        pos = start_pos + (position * road_direction) + (offset * road_normal)
+        return pos
 
-    def plot(self):
-        nc = ox.plot.get_node_colors_by_attr(self._road_graph, "endpoint", cmap="plasma")
-        ox.plot_graph(self._road_graph, node_color=nc)
+    def send_to_kafka(self, producer: KafkaProducer):
+        for _, building in self._buildings.iterrows():
+            polygon = building['geometry'].exterior.xy
+            geometry_x = list([value for value in polygon[0]])
+            geometry_z = list([value for value in polygon[1]])
+            producer.send('buildings', {
+                'geometry_x': geometry_x,
+                'geometry_z': geometry_z,
+                'levels': building['building:levels'],
+                'name': building['name'],
+            })
+
+        for road in self._road_graph.edges(data=True):
+            road_id = (road[0], road[1])
+            start_pos = self.node_position(road[0])
+            end_pos = self.node_position(road[1])
+            producer.send('roads', {
+                'start_x': start_pos[0],
+                'start_y': start_pos[1],
+                'start_z': start_pos[2],
+                'end_x': end_pos[0],
+                'end_y': end_pos[1],
+                'end_z': end_pos[2],
+                'length': self.road_length(road_id),
+                'lane_count': self.lane_count(road_id),
+            })
+
+
+def plot(self):
+    nc = ox.plot.get_node_colors_by_attr(self._road_graph, "endpoint", cmap="plasma")
+    ox.plot_graph(self._road_graph, node_color=nc)
 
 
 if __name__ == '__main__':

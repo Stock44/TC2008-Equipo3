@@ -5,14 +5,17 @@ using Kafka;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder;
+using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
 public class RoadMessage
 {
     public float start_x;
     public float start_y;
+    public float start_z;
     public float end_x;
     public float end_y;
+    public float end_z;
     public float length;
     public int lane_count;
 }
@@ -24,33 +27,30 @@ public class RoadRenderingBehaviour : KafkaConsumerBehaviour<RoadMessage>
 
     protected override void OnMessage(RoadMessage message)
     {
-        float offset = Mathf.Floor(message.lane_count / 2.0f);
-        if (message.lane_count % 2 > 0)
-        {
-            offset += 0.5f;
-        }
+        Vector3 startPosition = new(message.start_x, message.start_y, message.start_z);
+        Vector3 endPosition = new(message.end_x, message.end_y, message.end_z);
+        var displacement = endPosition - startPosition;
+        var direction = displacement.normalized;
+        var normalVector = Vector3.Cross(direction, Vector3.up);
+        Vector3 roadCentroid = startPosition + (direction * (message.length / 2.0f));
+        // float zAngle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.right);
+        float yAngle = Vector3.SignedAngle(Vector3.right, direction, Vector3.up);
+        float xAngle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
 
-        offset -= message.lane_count;
+        float offset = -Mathf.Floor(message.lane_count / 2.0f);
+
         offset *= laneWidth;
-        
+
         for (int lane = 0; lane < message.lane_count; lane++)
         {
             laneObject = Instantiate(laneObject, transform);
 
-            Vector3 startPosition = new(message.start_x, 0.0f, message.start_y);
-            Vector3 endPosition = new(message.end_x, 0.0f, message.end_y);
-            Vector3 directionVector = endPosition - startPosition;
-            directionVector = directionVector.normalized;
-            Vector3 laneCentroid = (startPosition + directionVector * (message.length / 2));
-            
-            offset += laneWidth;
-            var normalVector = Vector3.Cross(Vector3.up, directionVector);
-            laneCentroid += normalVector * offset;
-
+            var laneCentroid = roadCentroid + normalVector * offset;
             laneObject.transform.position = laneCentroid;
-            float angle = Vector3.SignedAngle(Vector3.right, directionVector.normalized, Vector3.up);
-            laneObject.transform.eulerAngles = new Vector3(0.0f, angle, 0.0f);
-            laneObject.transform.localScale = new Vector3(message.length, 0.1f, laneWidth);
+            laneObject.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0.0f, 90.0f, 0.0f);
+            laneObject.transform.localScale = new Vector3(message.length, 0.2f, laneWidth);
+
+            offset += laneWidth;
         }
     }
 }
