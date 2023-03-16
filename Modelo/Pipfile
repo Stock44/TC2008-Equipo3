@@ -11,6 +11,7 @@ numpy = "*"
 osmnx = "*"
 scipy = "*"
 sortedcontainers = "*"
+numba = "*"
 
 [dev-packages]
 
