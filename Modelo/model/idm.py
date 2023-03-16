@@ -1,4 +1,5 @@
 import numpy as np
+from numba import njit, vectorize, float64
 from numpy.typing import ArrayLike
 
 
@@ -16,34 +17,22 @@ def calculate_idm_free_accelerations(vehicle_speeds: ArrayLike,
     return accelerations
 
 
-@np.errstate(all='raise')
+@vectorize([float64(float64, float64, float64, float64, float64, float64, float64, float64, float64)])
 def calculate_idm_accelerations(vehicle_distances: ArrayLike, vehicle_speeds: ArrayLike, next_vehicle_speeds: ArrayLike,
                                 desired_speeds: ArrayLike, minimum_safety_gaps: ArrayLike,
                                 time_safety_gaps: ArrayLike, maximum_accelerations: ArrayLike,
-                                comfortable_decelerations: ArrayLike, acceleration_reduction_factor: float = 4.0):
-    try:
-        velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
-    except FloatingPointError:
-        velocity_factors = np.zeros(np.shape(vehicle_speeds))
+                                comfortable_decelerations: ArrayLike, acceleration_reduction_factor: ArrayLike):
+    velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
 
     delta_velocities = np.subtract(vehicle_speeds, next_vehicle_speeds)
 
-    try:
-        dynamic_gap_factors = np.divide(np.multiply(vehicle_speeds, delta_velocities), (
-                2 * np.sqrt(np.multiply(maximum_accelerations, comfortable_decelerations))))
-    except FloatingPointError:
-        dynamic_gap_factors = np.zeros(np.shape(vehicle_speeds))
+    dynamic_gap_factors = np.divide(np.multiply(vehicle_speeds, delta_velocities), (
+            2 * np.sqrt(np.multiply(maximum_accelerations, comfortable_decelerations))))
 
     time_gap_factors = np.multiply(vehicle_speeds, time_safety_gaps)
     desired_gap = np.add(minimum_safety_gaps, np.maximum(0.0, np.add(time_gap_factors, dynamic_gap_factors)))
-    try:
-        gap_factor = np.power(np.divide(desired_gap, vehicle_distances), 2)
-    except FloatingPointError:
-        gap_factor = np.zeros(np.shape(vehicle_speeds))
-    try:
-        accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
-    except FloatingPointError:
-        accelerations = np.zeros(np.shape(vehicle_speeds))
+    gap_factor = np.power(np.divide(desired_gap, vehicle_distances), 2)
+    accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
     return accelerations
 
 # class IDMVehicleAgent(VehicleAgent):
