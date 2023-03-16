@@ -258,7 +258,7 @@ class IDMModel(Model):
             old_follower_new_accel = calculate_idm_accelerations(
                 [next_vehicle.pos - next_vehicle.length / 2 - (vehicle.pos + vehicle.length / 2)], [vehicle.speed],
                 [next_vehicle.speed], [vehicle.desired_speed], [vehicle.minimum_safety_gap],
-                [vehicle.time_safety_gap], [vehicle.maximum_acceleration], [vehicle.comfortable_deceleration])
+                [vehicle.time_safety_gap], [vehicle.maximum_acceleration], [vehicle.comfortable_deceleration], 4.0)
         else:
             old_follower_new_accel = calculate_idm_free_accelerations([vehicle.speed],
                                                                       [vehicle.desired_speed],
@@ -331,7 +331,7 @@ class IDMModel(Model):
                 [next_vehicle.speed], [vehicle.desired_speed],
                 [vehicle.minimum_safety_gap], [vehicle.time_safety_gap],
                 [vehicle.maximum_acceleration],
-                [vehicle.comfortable_deceleration])
+                [vehicle.comfortable_deceleration], 4.0)
         else:
             new_accel = calculate_idm_free_accelerations([vehicle.speed], [vehicle.desired_speed],
                                                          [vehicle.maximum_acceleration])
@@ -347,18 +347,26 @@ class IDMModel(Model):
 
         accels_factor = selfish_factor[0] + vehicle.politeness * cooperative_factor
 
-        target_lane = self._vehicle_target_lanes[vehicle_id]
-        distance = road.length - vehicle.pos
-        if target_lane is not None and distance < self.critical_obligatory_lane_change_dist:
-            current_lane = self._vehicle_lanes[vehicle_id]
-            delta_lanes = target_lane - current_lane
+        route = self._vehicle_routes[vehicle_id]
+        route_idx = self._vehicle_route_segment[vehicle_id]
+        # if theres a route segment after this
+        if route_idx < len(route) - 2:
+            next_road_segment = self.road_network.road_segment_from_nodes(route[route_idx + 1], route[route_idx + 2])
+            if road_id != next_road_segment.road_id:
 
-            target_lane_factor = 4 * self.lane_switch_accel_threshold * (
-                    1 - (distance / self.critical_obligatory_lane_change_dist) ** 2)
-            if delta_lanes == 0:
-                target_lane_factor *= -1
+                possible_lanes = road.intersecting_segment_lanes[next_road_segment.road_segment_id]
+                target_lane = min(possible_lanes, key=lambda possible_lane, current_lane=lane: abs(possible_lane[0] - current_lane))
+                distance = next_road_segment.cumulative_length - vehicle.pos
+                delta_lanes = target_lane[0] - lane
+
+                target_lane_factor = 4 * self.lane_switch_accel_threshold * (
+                        1 - (distance / self.critical_obligatory_lane_change_dist) ** 2)
+                if delta_lanes == 0:
+                    target_lane_factor *= -1
+                else:
+                    target_lane_factor *= delta_lanes * direction
             else:
-                target_lane_factor *= delta_lanes * direction
+                target_lane_factor = 0.0
         else:
             target_lane_factor = 0.0
 
@@ -481,7 +489,7 @@ class IDMModel(Model):
             self._add_vehicle()
             # print("spawned vehicle")
 
-        # self._lane_switch_step()
+        self._lane_switch_step()
 
         self._limited_vehicles_step()
         self._free_vehicles_step()
