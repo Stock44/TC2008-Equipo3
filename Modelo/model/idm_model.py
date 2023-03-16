@@ -50,7 +50,6 @@ class IDMModel(Model):
             4.0,
             4.0,
             4.0,
-            4.0,
         ]
 
         self._vehicles: dict[VehicleId, IDMVehicleAgent] = {}

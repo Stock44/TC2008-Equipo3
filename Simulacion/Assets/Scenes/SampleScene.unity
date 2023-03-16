@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18029143, g: 0.22572419, b: 0.30693057, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -222,8 +222,8 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
+    m_Type: 1
+    m_Resolution: 3
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -255,7 +255,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -357,14 +358,36 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.09104672, y: 0.0045540514, z: -0.0078016613, w: 0.9958057}
+  m_LocalPosition: {x: 0.04, y: 8.77, z: -9.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10.451, y: 0.446, z: -0.857}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e6be43fb816bd2c8bef3bd72fe0d847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  speedMultiplier: 10
+  follow: {fileID: 0}
+  followDistance: 200
+  selectionDistance: 2000
+  sensibility: {x: 10, y: 10}
+  xLimit: 1000
+  yMinLimit: 10
+  yMaxLimit: 500
+  zLimit: 1000
 --- !u!1 &1075857460
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +436,13 @@ MonoBehaviour:
   updateTopicName: vehicle_positions
   creationTopicName: vehicle_creations
   deletionTopicName: vehicle_deletions
-  vehiclePrefab: {fileID: 919132149155446097, guid: f3ef9f917bf186c52bba6d3c26c34e82, type: 3}
+  vehicleTypes:
+  - {fileID: 636036051400892723, guid: 5e05c83ecb7ab8a77b060a8edf93a724, type: 3}
+  - {fileID: 4215493096826691412, guid: 9921352f7981bdf99a45b3e2e741bc14, type: 3}
+  - {fileID: 4962809652557308839, guid: 3f571429d0cfc0a1fa8549611ecedd48, type: 3}
+  - {fileID: 4398734105753114849, guid: 78c1b20187b4bcb33a8245756cb0f9f0, type: 3}
+  - {fileID: 4410939885668336749, guid: ae88bf09f6a49e84a99301dd843af50b, type: 3}
+  - {fileID: 3512826050580080982, guid: a703d821dacc6e81a9e0ceebe5fa3611, type: 3}
 --- !u!850595691 &1423961426
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -772,7 +801,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23226
+  m_Name: pb_Mesh23720
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
