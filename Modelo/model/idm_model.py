@@ -43,6 +43,16 @@ class IDMModel(Model):
         self.critical_obligatory_lane_change_dist = critical_obligatory_lane_change_dist
         self.vehicle_lookahead_distance = vehicle_lookahead_distance
 
+        self._vehicle_type_lengths: list[float] = [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+        ]
+
         self._vehicles: dict[VehicleId, IDMVehicleAgent] = {}
 
         self._vehicle_routes: dict[VehicleId, list[NodeId]] = {}
@@ -108,28 +118,30 @@ class IDMModel(Model):
         # all values in base metric, e.g. 80 km/h to 22.22 m/s
         # using a normal distribution
         desired_speed = norm.rvs(loc=22.22, scale=5.0)
-        minimum_safety_gap = norm.rvs(loc=3.0, scale=0.75)
-        time_safety_gap = norm.rvs(loc=3.0, scale=0.25)
-        maximum_acceleration = norm.rvs(loc=4.0, scale=1.5)
-        comfortable_deceleration = norm.rvs(loc=4.0, scale=1.0)
+        minimum_safety_gap = norm.rvs(loc=2.0, scale=0.2)
+        time_safety_gap = norm.rvs(loc=1.5, scale=0.1)
+        maximum_acceleration = norm.rvs(loc=0.73, scale=0.1)
+        comfortable_deceleration = norm.rvs(loc=1.67, scale=0.2)
         politeness = norm.rvs(loc=0.5, scale=0.3)
 
-        new_vehicle = IDMVehicleAgent(self._next_id, self, 2.0, desired_speed, minimum_safety_gap, time_safety_gap,
+        vehicle_type = random.randint(0, len(self._vehicle_type_lengths) - 1)
+
+        new_vehicle = IDMVehicleAgent(self._next_id, self, self._vehicle_type_lengths[vehicle_type], desired_speed,
+                                      minimum_safety_gap, time_safety_gap,
                                       maximum_acceleration, comfortable_deceleration, politeness)
-        new_vehicle.speed = 15.0
+        new_vehicle.speed = 18.0
         self._next_id += 1
         self._vehicles[new_vehicle.unique_id] = new_vehicle
 
         self._vehicle_routes[new_vehicle.unique_id] = route
         self._vehicle_route_segment[new_vehicle.unique_id] = 0
 
-        random_pos = random.random() * initial_road.length / 2
-
-        self._place_vehicle(new_vehicle, initial_road.road_id, initial_lane, random_pos)
+        self._place_vehicle(new_vehicle, initial_road.road_id, initial_lane, 0.0)
 
         self.schedule.add(new_vehicle)
         self._kafka_producer.send('vehicle_creations', value={
             'id': new_vehicle.unique_id,
+            'vehicle_type': vehicle_type
         })
 
     def _remove_vehicle(self, vehicle_id: int):
@@ -465,9 +477,7 @@ class IDMModel(Model):
         current_time = time.time()
         delta_spawn_t = current_time - self._last_spawn_time
 
-        probability = 50 * delta_spawn_t
-
-        if len(self._vehicles) < self.max_vehicles and probability > random.random():
+        if len(self._vehicles) < self.max_vehicles and delta_spawn_t * random.random() > 0.1:
             self._last_spawn_time = current_time
             self._add_vehicle()
             # print("spawned vehicle")

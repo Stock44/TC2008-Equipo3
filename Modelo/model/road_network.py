@@ -216,7 +216,6 @@ class RoadNetwork:
             next_road_segments: list[RoadSegment] = []
             rightness: dict[int, float] = {}
 
-
             # get the list of neighboring segments (excluding the one that would go along the current road)
             # also calculate the relative node position to the current segment's start position
             for next_node_id in next_nodes_ids:
@@ -228,16 +227,15 @@ class RoadNetwork:
                     # degree of rightness (how far along to the right an exit road segment is) using only x and z axes
                     # negative values indicates it's to the left
                     # noinspection PyTypeChecker
-                    rightness[next_node_id] = np.dot(road_segment.direction[::2],
+                    rightness[next_node_id] = np.dot(-1 * road_segment.direction[::2],
                                                      rel_position[::2])  # this is totally a float
-
-
 
             # join the exiting roads to a given lane, except if we're at the end of a road.
             # accumulate the exceptions in a list
             last_segments: list[RoadSegment] = []
             for next_road_segment in next_road_segments:
-
+                if next_road_segment.road_segment_id == 92:
+                    pass
                 # if this road segment is connected to the last node of the road
                 if last_rs_node == next_road_segment.start_node_id:
                     last_segments.append(next_road_segment)
@@ -247,8 +245,12 @@ class RoadNetwork:
                     if rightness[next_road_segment.end_node_id] > 0:
                         road.intersecting_segment_lanes[next_road_segment.road_segment_id] = [
                             (road.lanes - 1, next_road.lanes - 1)]
+                        if road.road_id == 158071149:
+                            pass
                     else:
                         road.intersecting_segment_lanes[next_road_segment.road_segment_id] = [(0, 0)]
+                        if road.road_id == 158071149:
+                            pass
             if len(last_segments) > 0:
                 total_out_lanes = sum([self.roads[road_segment.road_id].lanes for road_segment in last_segments])
                 total_out_roads = len(last_segments)
@@ -287,7 +289,7 @@ class RoadNetwork:
                     last_segments_idx = 0
                     for lane_idx in range(0, road.lanes):
                         for out_segment_idx in range(0, lane_to_roads_ratio):
-                            segment = last_segments[last_segments_idx ]
+                            segment = last_segments[last_segments_idx]
                             if segment.road_segment_id not in lane_connections:
                                 lane_connections[segment.road_segment_id] = []
                             for out_lane_idx in range(0, self.roads[segment.road_id].lanes):
@@ -326,7 +328,12 @@ class RoadNetwork:
 
                         if last_segments_idx >= len(last_segments):
                             break
-
+                    if last_segments_idx < len(last_segments):
+                        for out_segment_idx in range(last_segments_idx - 1, len(last_segments)):
+                            segment = last_segments[out_segment_idx]
+                            if segment.road_segment_id not in lane_connections:
+                                lane_connections[segment.road_segment_id] = []
+                            lane_connections[segment.road_segment_id].append((road.lanes - 1, 0))
                 road.intersecting_segment_lanes.update(lane_connections)
 
     def get_node_neighbors(self, node: Node) -> set[int]:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
     public class VehicleCreationMessage
     {
         public int id;
+        public int vehicle_type;
     }
 
     private Thread _creationThread;
@@ -49,7 +51,7 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
     public string creationTopicName;
     public string deletionTopicName;
 
-    public GameObject vehiclePrefab;
+    public List<GameObject> vehicleTypes;
 
     private CancellationTokenSource _cts = new();
 
@@ -97,12 +99,17 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
     {
         while (_creationQueue.TryDequeue(out var creation))
         {
+            var vehiclePrefab = vehicleTypes[creation.vehicle_type];
             var newVehicle = Instantiate(vehiclePrefab, transform);
             _vehicleObjects.Add(creation.id, newVehicle);
         }
 
         while (_updateQueue.TryDequeue(out var update))
         {
+            if (!_vehicleObjects.ContainsKey(update.id))
+            {
+                continue;
+            }
             var newPosition = new Vector3(update.x, update.y, update.z);
             _vehicleObjects[update.id].transform.position = newPosition;
             Vector3 rotation = new(update.x_direction, update.y_direction, update.z_direction);
@@ -111,6 +118,7 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
 
         while (_deletionQueue.TryDequeue(out var deletion))
         {
+            Destroy(_vehicleObjects[deletion.id]);
             _vehicleObjects.Remove(deletion.id);
         }
     }
