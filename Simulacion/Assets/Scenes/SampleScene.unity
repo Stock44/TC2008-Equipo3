@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18029143, g: 0.22572419, b: 0.30693057, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,7 +156,7 @@ MonoBehaviour:
   kafkaAddress: localhost:9092
   topicName: roads
   laneObject: {fileID: 296633001786763491, guid: 2959b706220db656281130d57772fbcf, type: 3}
-  laneWidth: 4
+  laneWidth: 3
 --- !u!4 &148993900
 Transform:
   m_ObjectHideFlags: 0
@@ -701,6 +701,7 @@ MonoBehaviour:
   - {fileID: 4398734105753114849, guid: 78c1b20187b4bcb33a8245756cb0f9f0, type: 3}
   - {fileID: 4410939885668336749, guid: ae88bf09f6a49e84a99301dd843af50b, type: 3}
   - {fileID: 3512826050580080982, guid: a703d821dacc6e81a9e0ceebe5fa3611, type: 3}
+  - {fileID: 1508401773521372340, guid: 1ade5b5b4a74121ccbc2b7d826b92443, type: 3}
 --- !u!850595691 &1423961426
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1532,7 +1533,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23276
+  m_Name: pb_Mesh23282
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

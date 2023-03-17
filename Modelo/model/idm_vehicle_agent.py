@@ -25,7 +25,7 @@ class IDMVehicleAgent(Agent):
 
         self.politeness: float = politeness
 
-        self.last_tick: float = time.time()
+        self.last_tick: float = time.time_ns()
 
         # agent characteristics
         self.length = length
@@ -34,8 +34,9 @@ class IDMVehicleAgent(Agent):
         pass
 
     def advance(self) -> None:
-        current_time = time.time()
+        current_time = time.time_ns()
         delta_t = current_time - self.last_tick
-        self.speed += self.acceleration * delta_t
-        self.pos += self.speed * delta_t
+        self.speed += (self.acceleration * delta_t) / 1000000000
+        self.speed = 0 if self.speed < 0 else self.speed
+        self.pos += (self.speed * delta_t) / 1000000000
         self.last_tick = current_time

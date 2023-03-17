@@ -43,12 +43,13 @@ class IDMModel(Model):
         self.vehicle_lookahead_distance = vehicle_lookahead_distance
 
         self._vehicle_type_lengths: list[float] = [
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            12.0,
         ]
 
         self._vehicle_type_max_occupancy: list[int] = [
@@ -58,6 +59,7 @@ class IDMModel(Model):
             5,
             2,
             2,
+            35,
         ]
 
         self._vehicles: dict[VehicleId, IDMVehicleAgent] = {}
@@ -138,12 +140,15 @@ class IDMModel(Model):
         # using a normal distribution
         desired_speed = norm.rvs(loc=22.22, scale=5.0)
         minimum_safety_gap = norm.rvs(loc=2.0, scale=0.2)
-        time_safety_gap = norm.rvs(loc=1.5, scale=0.1)
-        maximum_acceleration = norm.rvs(loc=1.3, scale=0.1)
-        comfortable_deceleration = norm.rvs(loc=2.6, scale=0.2)
-        politeness = norm.rvs(loc=0.5, scale=0.3)
+        time_safety_gap = norm.rvs(loc=1.0, scale=0.2)
+        maximum_acceleration = norm.rvs(loc=2.0, scale=0.4)
+        comfortable_deceleration = norm.rvs(loc=3.5, scale=0.5)
+        politeness = norm.rvs(loc=0.6, scale=0.3)
 
-        vehicle_type = random.randint(0, len(self._vehicle_type_lengths) - 1)
+        if random.random() < 0.001:
+            vehicle_type = 6
+        else:
+            vehicle_type = random.randint(0, 5)
 
         max_occupancy = self._vehicle_type_max_occupancy[vehicle_type]
         occupancy = random.randint(1, max_occupancy)
@@ -159,7 +164,7 @@ class IDMModel(Model):
         self._vehicle_routes[new_vehicle.unique_id] = route
         self._vehicle_route_segment[new_vehicle.unique_id] = 0
 
-        self._place_vehicle(new_vehicle, initial_road.road_id, initial_lane, 0.0)
+        self._place_vehicle(new_vehicle, initial_road.road_id, initial_lane, random.random() * initial_road_segment.length / 2)
 
         self.schedule.add(new_vehicle)
         self._kafka_producer.send('vehicle_creations', value={
@@ -277,7 +282,6 @@ class IDMModel(Model):
                                                         time_safety_gaps, maximum_accelerations,
                                                         comfortable_decelerations, 4.0)
             np.nan_to_num(accelerations, copy=False, posinf=0.0, neginf=0.0)
-            np.clip(accelerations, [-speed for speed in vehicle_speeds], None, out=accelerations)
 
             for idx, vehicle in enumerate(vehicles):
                 vehicle.acceleration = accelerations[idx]
@@ -534,6 +538,7 @@ class IDMModel(Model):
                 self._add_vehicle()
             # print("spawned vehicle")
 
+        self._road_segment_end_step()
         self._lane_switch_step()
 
         self._limited_vehicles_step()
@@ -545,8 +550,6 @@ class IDMModel(Model):
             for lane_vehicles in per_lane_vehicles:
                 # always ensure this list is sorted, vehicle steps might have changed that
                 lane_vehicles.sort(key=self._vehicle_road_position_key)
-
-        self._road_segment_end_step()
 
         delta_last_sent = current_time - self._last_sent_time
         if delta_last_sent > 0.25:

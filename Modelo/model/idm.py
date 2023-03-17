@@ -27,7 +27,7 @@ def calculate_idm_accelerations(vehicle_distances: ArrayLike, vehicle_speeds: Ar
             2 * np.sqrt(np.multiply(maximum_accelerations, comfortable_decelerations))))
 
     time_gap_factors = np.multiply(vehicle_speeds, time_safety_gaps)
-    desired_gap = np.add(minimum_safety_gaps, np.maximum(0.0, np.add(time_gap_factors, dynamic_gap_factors)))
+    desired_gap = np.add(minimum_safety_gaps, np.add(time_gap_factors, np.maximum(0.0, dynamic_gap_factors)))
     gap_factor = np.power(np.divide(desired_gap, vehicle_distances), 2)
     accelerations = np.multiply(maximum_accelerations, (np.subtract(np.subtract(1, velocity_factors), gap_factor)))
     return accelerations
