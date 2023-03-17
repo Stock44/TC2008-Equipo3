@@ -154,9 +154,9 @@ public class CameraBehavior : MonoBehaviour
         }
 
         //Movimiento de la camara en primera persona
-        if (follow != null && firstPerson == true)
+        if (follow != null && firstPerson)
         {
-            transform.position = follow.GetChild(0).transform.position;
+            transform.position = follow.GetChild(0).transform.position + follow.GetChild(0).transform.rotation * Vector3.forward * 3.0f;
             transform.rotation = follow.transform.rotation;
         }
 

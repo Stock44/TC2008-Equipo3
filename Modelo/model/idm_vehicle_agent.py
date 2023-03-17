@@ -6,13 +6,16 @@ from mesa import Agent, Model
 class IDMVehicleAgent(Agent):
     def __init__(self, unique_id: int, model: Model, length: float, desired_speed: float,
                  minimum_safety_gap: float, time_safety_gap: float, maximum_acceleration: float,
-                 comfortable_deceleration: float, politeness: float):
+                 comfortable_deceleration: float, politeness: float, occupancy: int, max_occupancy: int):
         # agent init
         super().__init__(unique_id, model)
 
         self.pos: float = 0.0
         self.speed: float = 0.0
         self.acceleration: float = 0.0
+
+        self.occupancy = occupancy
+        self.max_occupancy = max_occupancy
 
         self.desired_speed: float = desired_speed
         self.minimum_safety_gap: float = minimum_safety_gap

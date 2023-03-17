@@ -4,7 +4,6 @@ import time
 
 from bisect import bisect_left, insort_left
 
-from numba import njit
 from scipy.stats import norm
 
 import numpy as np
@@ -27,7 +26,7 @@ VehicleId = int
 
 class IDMModel(Model):
     def __init__(self, max_vehicles=10000, lane_safety_critical_accel=-2.0, lane_switch_accel_threshold=1.0,
-                 critical_obligatory_lane_change_dist=200.0, lane_width=4, vehicle_lookahead_distance=300.0):
+                 critical_obligatory_lane_change_dist=200.0, lane_width=3.0, vehicle_lookahead_distance=300.0):
         super().__init__()
         self.road_network = RoadNetwork(25.6759, 25.6682, -100.3481, -100.3582)
         self.schedule = SimultaneousActivation(self)
@@ -52,6 +51,15 @@ class IDMModel(Model):
             4.0,
         ]
 
+        self._vehicle_type_max_occupancy: list[int] = [
+            5,
+            5,
+            5,
+            5,
+            2,
+            2,
+        ]
+
         self._vehicles: dict[VehicleId, IDMVehicleAgent] = {}
 
         self._vehicle_routes: dict[VehicleId, list[NodeId]] = {}
@@ -68,6 +76,18 @@ class IDMModel(Model):
             self._per_road_per_lane_vehicles[road_id] = list([[] for _ in range(road.lanes)])
 
         self._next_id = 0
+
+        self._last_sample_time = time.time()
+        self._people_entry_since_last_sample = 0
+        self._people_exit_since_last_sample = 0
+        self._entries_since_last_sample = 0
+        self._exits_since_last_sample = 0
+        self._vehicle_entry_rate = 0.0
+        self._vehicle_exit_rate = 0.0
+        self._people_entry_rate = 0.0
+        self._people_exit_rate = 0.0
+
+        self._model_start_time = time.time()
         self._last_spawn_time = time.time()
         self._last_lane_switch_step = time.time()
         self._last_sent_time = time.time()
@@ -119,15 +139,19 @@ class IDMModel(Model):
         desired_speed = norm.rvs(loc=22.22, scale=5.0)
         minimum_safety_gap = norm.rvs(loc=2.0, scale=0.2)
         time_safety_gap = norm.rvs(loc=1.5, scale=0.1)
-        maximum_acceleration = norm.rvs(loc=0.73, scale=0.1)
-        comfortable_deceleration = norm.rvs(loc=1.67, scale=0.2)
+        maximum_acceleration = norm.rvs(loc=1.3, scale=0.1)
+        comfortable_deceleration = norm.rvs(loc=2.6, scale=0.2)
         politeness = norm.rvs(loc=0.5, scale=0.3)
 
         vehicle_type = random.randint(0, len(self._vehicle_type_lengths) - 1)
 
+        max_occupancy = self._vehicle_type_max_occupancy[vehicle_type]
+        occupancy = random.randint(1, max_occupancy)
+
         new_vehicle = IDMVehicleAgent(self._next_id, self, self._vehicle_type_lengths[vehicle_type], desired_speed,
                                       minimum_safety_gap, time_safety_gap,
-                                      maximum_acceleration, comfortable_deceleration, politeness)
+                                      maximum_acceleration, comfortable_deceleration, politeness, occupancy,
+                                      max_occupancy)
         new_vehicle.speed = 18.0
         self._next_id += 1
         self._vehicles[new_vehicle.unique_id] = new_vehicle
@@ -143,7 +167,11 @@ class IDMModel(Model):
             'vehicle_type': vehicle_type
         })
 
+        self._entries_since_last_sample += 1
+        self._people_entry_since_last_sample += occupancy
+
     def _remove_vehicle(self, vehicle_id: int):
+        vehicle = self._vehicles[vehicle_id]
         road_id = self._vehicle_roads[vehicle_id]
         per_lane_vehicles = self._per_road_per_lane_vehicles[road_id]
         vehicle_lane = self._vehicle_lanes[vehicle_id]
@@ -160,6 +188,9 @@ class IDMModel(Model):
         self._kafka_producer.send('vehicle_deletions', value={
             'id': vehicle_id,
         })
+
+        self._exits_since_last_sample += 1
+        self._people_exit_since_last_sample += vehicle.occupancy
 
     def _place_vehicle(self, vehicle: IDMVehicleAgent, road_id: RoadId, lane: int, pos: float):
         vehicle_id = vehicle.unique_id
@@ -211,7 +242,7 @@ class IDMModel(Model):
             desired_speeds = np.stack(vehicle.desired_speed for vehicle in free_vehicles)
             maximum_accelerations = np.stack(vehicle.maximum_acceleration for vehicle in free_vehicles)
 
-            accelerations = calculate_idm_free_accelerations(vehicle_speeds, desired_speeds, maximum_accelerations)
+            accelerations = calculate_idm_free_accelerations(vehicle_speeds, desired_speeds, maximum_accelerations, 4.0)
 
             for idx, vehicle in enumerate(free_vehicles):
                 vehicle.acceleration = accelerations[idx]
@@ -229,17 +260,16 @@ class IDMModel(Model):
             next_vehicles = [self._vehicles[vehicle_id] for vehicle_id in next_vehicles_ids]
 
             # ugh
-            vehicle_distances = np.stack(
-                list([next_vehicle.pos - (next_vehicle.length / 2) - (vehicle.pos + vehicle.length / 2) for
-                      vehicle, next_vehicle in zip(vehicles, next_vehicles)]))
-            vehicle_distances[vehicle_distances <= 0] = 0.0
-            vehicle_speeds = np.stack(list([vehicle.speed for vehicle in vehicles]))
-            next_vehicle_speeds = np.stack(list([vehicle.pos for vehicle in next_vehicles]))
-            desired_speeds = np.stack(list([vehicle.desired_speed for vehicle in vehicles]))
-            minimum_safety_gaps = np.stack(list([vehicle.minimum_safety_gap for vehicle in vehicles]))
-            time_safety_gaps = np.stack(list([vehicle.time_safety_gap for vehicle in vehicles]))
-            maximum_accelerations = np.stack(list([vehicle.maximum_acceleration for vehicle in vehicles]))
-            comfortable_decelerations = np.stack(list([vehicle.comfortable_deceleration for vehicle in vehicles]))
+            vehicle_distances = list(
+                [max(0.0, next_vehicle.pos - (next_vehicle.length / 2) - (vehicle.pos + vehicle.length / 2)) for
+                 vehicle, next_vehicle in zip(vehicles, next_vehicles)])
+            vehicle_speeds = list([vehicle.speed for vehicle in vehicles])
+            next_vehicle_speeds = list([vehicle.pos for vehicle in next_vehicles])
+            desired_speeds = list([vehicle.desired_speed for vehicle in vehicles])
+            minimum_safety_gaps = list([vehicle.minimum_safety_gap for vehicle in vehicles])
+            time_safety_gaps = list([vehicle.time_safety_gap for vehicle in vehicles])
+            maximum_accelerations = list([vehicle.maximum_acceleration for vehicle in vehicles])
+            comfortable_decelerations = list([vehicle.comfortable_deceleration for vehicle in vehicles])
 
             accelerations = calculate_idm_accelerations(vehicle_distances, vehicle_speeds,
                                                         next_vehicle_speeds, desired_speeds,
@@ -247,6 +277,7 @@ class IDMModel(Model):
                                                         time_safety_gaps, maximum_accelerations,
                                                         comfortable_decelerations, 4.0)
             np.nan_to_num(accelerations, copy=False, posinf=0.0, neginf=0.0)
+            np.clip(accelerations, [-speed for speed in vehicle_speeds], None, out=accelerations)
 
             for idx, vehicle in enumerate(vehicles):
                 vehicle.acceleration = accelerations[idx]
@@ -262,7 +293,7 @@ class IDMModel(Model):
         else:
             old_follower_new_accel = calculate_idm_free_accelerations([vehicle.speed],
                                                                       [vehicle.desired_speed],
-                                                                      [vehicle.maximum_acceleration])
+                                                                      [vehicle.maximum_acceleration], 4.0)
         return old_follower_new_accel[0] - vehicle.acceleration
 
     def _is_lane_switch_safe(self, vehicle: IDMVehicleAgent, new_lane_vehicles: list[int], new_idx: int) -> bool:
@@ -334,7 +365,7 @@ class IDMModel(Model):
                 [vehicle.comfortable_deceleration], 4.0)
         else:
             new_accel = calculate_idm_free_accelerations([vehicle.speed], [vehicle.desired_speed],
-                                                         [vehicle.maximum_acceleration])
+                                                         [vehicle.maximum_acceleration], 4.0)
 
         selfish_factor = new_accel - old_accel
 
@@ -355,7 +386,8 @@ class IDMModel(Model):
             if road_id != next_road_segment.road_id:
 
                 possible_lanes = road.intersecting_segment_lanes[next_road_segment.road_segment_id]
-                target_lane = min(possible_lanes, key=lambda possible_lane, current_lane=lane: abs(possible_lane[0] - current_lane))
+                target_lane = min(possible_lanes,
+                                  key=lambda possible_lane, current_lane=lane: abs(possible_lane[0] - current_lane))
                 distance = next_road_segment.cumulative_length - vehicle.pos
                 delta_lanes = target_lane[0] - lane
 
@@ -484,9 +516,22 @@ class IDMModel(Model):
         current_time = time.time()
         delta_spawn_t = current_time - self._last_spawn_time
 
-        if len(self._vehicles) < self.max_vehicles and delta_spawn_t * random.random() > 0.1:
+        sample_delta_t = current_time - self._last_sample_time
+        if sample_delta_t > 2.0:
+            self._last_sample_time = current_time
+            self._vehicle_entry_rate = round(self._entries_since_last_sample * 10 / sample_delta_t) / 10
+            self._vehicle_exit_rate = round(self._exits_since_last_sample * 10 / sample_delta_t) / 10
+            self._people_entry_rate = round(self._people_entry_since_last_sample * 10 / sample_delta_t) / 10
+            self._people_exit_rate = round(self._people_exit_since_last_sample * 10 / sample_delta_t) / 10
+            self._entries_since_last_sample = 0
+            self._exits_since_last_sample = 0
+            self._people_entry_since_last_sample = 0
+            self._people_exit_since_last_sample = 0
+
+        if len(self._vehicles) < self.max_vehicles and delta_spawn_t > 0.05:
             self._last_spawn_time = current_time
-            self._add_vehicle()
+            for _ in range(int(delta_spawn_t // 0.05)):
+                self._add_vehicle()
             # print("spawned vehicle")
 
         self._lane_switch_step()
@@ -506,7 +551,10 @@ class IDMModel(Model):
         delta_last_sent = current_time - self._last_sent_time
         if delta_last_sent > 0.25:
             self._last_sent_time = current_time
+
+            total_speeds = 0.0
             for vehicle in self._vehicles.values():
+                total_speeds += vehicle.speed
                 road_id = self._vehicle_roads[vehicle.unique_id]
                 road = self.road_network.roads[road_id]
                 road_segment_idx = self._vehicle_road_segment_idx[vehicle.unique_id]
@@ -538,3 +586,17 @@ class IDMModel(Model):
                     'acceleration': vehicle.acceleration,
                     'speed': vehicle.speed,
                 })
+
+            try:
+                average_speed = total_speeds / len(self._vehicles)
+            except ZeroDivisionError:
+                average_speed = 0
+
+            self._kafka_producer.send('stats', value={
+                'vehicle_count': len(self._vehicles),
+                'average_speed': average_speed,
+                'entries_per_second': self._vehicle_entry_rate,
+                'exits_per_second': self._vehicle_exit_rate,
+                'people_entry_per_second': self._people_entry_rate,
+                'people_exit_per_second': self._people_exit_rate
+            })

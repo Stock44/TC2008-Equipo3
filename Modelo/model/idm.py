@@ -3,14 +3,11 @@ from numba import njit, vectorize, float64
 from numpy.typing import ArrayLike
 
 
-@np.errstate(all='raise')
+@vectorize([float64(float64, float64, float64, float64)])
 def calculate_idm_free_accelerations(vehicle_speeds: ArrayLike,
                                      desired_speeds: ArrayLike, maximum_accelerations: ArrayLike,
-                                     acceleration_reduction_factor: float = 4.0):
-    try:
-        velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
-    except FloatingPointError:
-        velocity_factors = np.zeros(shape=np.shape(vehicle_speeds))
+                                     acceleration_reduction_factor: ArrayLike):
+    velocity_factors = np.power(np.divide(vehicle_speeds, desired_speeds), acceleration_reduction_factor)
 
     accelerations = np.multiply(maximum_accelerations, np.subtract(1, velocity_factors))
 

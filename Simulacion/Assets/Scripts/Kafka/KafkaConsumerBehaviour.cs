@@ -22,8 +22,10 @@ namespace Kafka
 
         public void Start()
         {
+            Init();
             StartKafkaThread();
         }
+        
 
         public void OnDisable()
         {
@@ -57,6 +59,11 @@ namespace Kafka
         private void ReceiveMessage(TMessage message)
         {
             _messageQueue.Enqueue(message);
+        }
+
+        protected virtual void Init()
+        {
+            
         }
 
         protected abstract void OnMessage(TMessage message);

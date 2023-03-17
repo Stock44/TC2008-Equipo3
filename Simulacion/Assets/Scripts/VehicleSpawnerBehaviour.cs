@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -45,6 +43,8 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
     private ConcurrentQueue<VehicleDeletionMessage> _deletionQueue = new();
 
     private Dictionary<int, GameObject> _vehicleObjects = new();
+    private Dictionary<int, Vector3> _vehicleDirections = new();
+    private Dictionary<int, float> _vehicleSpeeds = new();
 
     public string kafkaAddress;
     public string updateTopicName;
@@ -102,6 +102,8 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
             var vehiclePrefab = vehicleTypes[creation.vehicle_type];
             var newVehicle = Instantiate(vehiclePrefab, transform);
             _vehicleObjects.Add(creation.id, newVehicle);
+            _vehicleDirections.Add(creation.id, new Vector3());
+            _vehicleSpeeds.Add(creation.id, 0.0f);
         }
 
         while (_updateQueue.TryDequeue(out var update))
@@ -111,15 +113,27 @@ public class VehicleSpawnerBehaviour : MonoBehaviour
                 continue;
             }
             var newPosition = new Vector3(update.x, update.y, update.z);
+            _vehicleSpeeds[update.id] = update.speed;
             _vehicleObjects[update.id].transform.position = newPosition;
-            Vector3 rotation = new(update.x_direction, update.y_direction, update.z_direction);
-            _vehicleObjects[update.id].transform.rotation = Quaternion.LookRotation(rotation);
+            Vector3 direction = new(update.x_direction, update.y_direction, update.z_direction);
+            _vehicleDirections[update.id] = direction;
+            _vehicleObjects[update.id].transform.rotation = Quaternion.LookRotation(direction);
         }
 
         while (_deletionQueue.TryDequeue(out var deletion))
         {
             Destroy(_vehicleObjects[deletion.id]);
             _vehicleObjects.Remove(deletion.id);
+            _vehicleSpeeds.Remove(deletion.id);
+            _vehicleDirections.Remove(deletion.id);
+        }
+
+        foreach (var (vehicleId, vehicle) in _vehicleObjects)
+        {
+            var vehicleSpeed = _vehicleSpeeds[vehicleId];
+            var vehicleDirection = _vehicleDirections[vehicleId];
+
+            vehicle.transform.position += vehicleDirection * (vehicleSpeed * Time.deltaTime);
         }
     }
 
