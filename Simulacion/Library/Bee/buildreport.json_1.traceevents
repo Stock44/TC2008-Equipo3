@@ -1,0 +1,547 @@
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "BeeDriver" } },
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-2" } },
+{ "pid": 0, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 0, "tid": 1, "ts": 1679087774531609, "dur": 415159, "ph": "X", "name": "Build Player", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774531884, "dur": 5060, "ph": "X", "name": "WriteBuildProgramData", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774536948, "dur": 47165, "ph": "X", "name": "Run Backend", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774584150, "dur": 205077, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774789232, "dur": 156421, "ph": "X", "name": "Run Backend", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774945658, "dur": 1109, "ph": "X", "name": "Finish", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774947187, "dur": 111, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "netcorerun.dll" } },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-1" } },
+{ "pid": 35942, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 35942, "tid": 1, "ts": 1679087774683027, "dur": 91263, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774683911, "dur": 40948, "ph": "X", "name": "BuildProgramContextConstructor", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774761672, "dur": 3283, "ph": "X", "name": "OutputData.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774764957, "dur": 9325, "ph": "X", "name": "Backend.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774765635, "dur": 8371, "ph": "X", "name": "JsonToString", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774777752, "dur": 1278, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1679087774777383, "dur": 1707, "ph": "X", "name": "Write chrome-trace events", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774947387, "dur": 214, "ph": "X", "name": "buildprogram0.traceevents", "args": {} },
+{ "cat":"", "pid":12345, "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
+,{ "pid":12345, "tid":0, "ts":1679087774852885, "dur":679, "ph":"X", "name": "DriverInitData",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774853577, "dur":21, "ph":"X", "name": "Tundra",  "args": { "detail":"RemoveStaleOutputs" }}
+,{ "pid":12345, "tid":0, "ts":1679087774853611, "dur":39, "ph":"X", "name": "Tundra",  "args": { "detail":"PrepareNodes" }}
+,{ "pid":12345, "tid":0, "ts":1679087774853651, "dur":688, "ph":"X", "name": "Tundra",  "args": { "detail":"BuildQueueInit" }}
+,{ "pid":12345, "tid":0, "ts":1679087774854370, "dur":847, "ph":"X", "name": "EnqueueRequestedNodes",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774855217, "dur":3, "ph":"X", "name": "SortWorkingStack",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938611, "dur":12, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938623, "dur":4, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938627, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938629, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938630, "dur":33, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938663, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938663, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938664, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938664, "dur":99, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938763, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938764, "dur":14, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938778, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938779, "dur":18, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938797, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938797, "dur":13, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938810, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938811, "dur":12, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938824, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938824, "dur":11, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938835, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938836, "dur":10, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938846, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938847, "dur":10, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938857, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938857, "dur":16, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938873, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938874, "dur":9, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938883, "dur":1, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938884, "dur":13, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938897, "dur":0, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938897, "dur":12, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938909, "dur":40, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938949, "dur":1, "ph":"X", "name": "SharedResourceDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938963, "dur":4, "ph":"X", "name": "BuildQueueDestroyTail",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774938969, "dur":761, "ph":"X", "name": "Tundra",  "args": { "detail":"Write AllBuiltNodes" }}
+,{ "pid":12345, "tid":1, "ts":1679087774853752, "dur":1478, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774855231, "dur":506, "ph":"X", "name": "CheckDagSignatures",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774855739, "dur":1, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"WriteText Library/Bee/artifacts/LinuxPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":1, "ts":1679087774855745, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774855970, "dur":218, "ph":"X", "name": "WriteText",  "args": { "detail":"Library/Bee/artifacts/LinuxPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":1, "ts":1679087774856191, "dur":188, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774856381, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774856384, "dur":1574, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774857963, "dur":31, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Memory.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774857999, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774858007, "dur":206, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Memory.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774858218, "dur":201, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774858424, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774858432, "dur":1265, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774859701, "dur":101, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774859805, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774859810, "dur":724, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774860555, "dur":66, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774860623, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774860629, "dur":775, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861407, "dur":30, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861439, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861442, "dur":121, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861565, "dur":20, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861587, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861591, "dur":101, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861694, "dur":19, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861714, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861717, "dur":169, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861889, "dur":6, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/app.info" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861897, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861899, "dur":74, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/app.info" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861974, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/config" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861980, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1679087774861989, "dur":3437, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/config" }}
+,{ "pid":12345, "tid":1, "ts":1679087774865434, "dur":73120, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774853783, "dur":1471, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774855255, "dur":493, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774855753, "dur":705, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1679087774856463, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774856470, "dur":174, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1679087774856713, "dur":9, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":2, "ts":1679087774856728, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774856860, "dur":739, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":2, "ts":1679087774857603, "dur":1560, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":2, "ts":1679087774859165, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1679087774859168, "dur":7861, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":2, "ts":1679087774867036, "dur":71517, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774853842, "dur":1444, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774855286, "dur":465, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774855758, "dur":687, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774856450, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774856457, "dur":277, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774856737, "dur":5, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":3, "ts":1679087774856744, "dur":12, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774856841, "dur":469, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":3, "ts":1679087774857313, "dur":439, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/UnityPlayer.png" }}
+,{ "pid":12345, "tid":3, "ts":1679087774857758, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774857800, "dur":1190, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/UnityPlayer.png" }}
+,{ "pid":12345, "tid":3, "ts":1679087774858993, "dur":15, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859010, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859019, "dur":331, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859353, "dur":16, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859371, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859373, "dur":471, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774859849, "dur":587, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774860442, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774860450, "dur":1287, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774861743, "dur":44, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774861792, "dur":19, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774861868, "dur":168, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774862042, "dur":38, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774862097, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774862104, "dur":197, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774862305, "dur":966, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774863276, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1679087774863284, "dur":2194, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1679087774865482, "dur":73119, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774853881, "dur":1411, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774855293, "dur":454, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774855750, "dur":699, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774856451, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774856454, "dur":146, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774856602, "dur":5, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":4, "ts":1679087774856608, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774856860, "dur":618, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":4, "ts":1679087774857503, "dur":216, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774857736, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774857742, "dur":905, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774858652, "dur":55, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Poly2Tri.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774858712, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774858720, "dur":835, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Poly2Tri.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774859557, "dur":39, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774859598, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774859601, "dur":330, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774859934, "dur":120, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774860056, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774860061, "dur":626, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774860689, "dur":26, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774860717, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774860721, "dur":797, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774861524, "dur":59, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774861588, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774861596, "dur":332, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1679087774861933, "dur":10, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libmono-native.so" }}
+,{ "pid":12345, "tid":4, "ts":1679087774861947, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1679087774862079, "dur":11214, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libmono-native.so" }}
+,{ "pid":12345, "tid":4, "ts":1679087774873302, "dur":65274, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774853917, "dur":1384, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774855302, "dur":460, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774855762, "dur":460, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774856228, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774856236, "dur":507, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774856774, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1679087774856780, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774856840, "dur":751, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1679087774857595, "dur":823, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774858420, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774858423, "dur":3316, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861743, "dur":39, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861784, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861787, "dur":108, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861902, "dur":9, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861963, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1679087774861966, "dur":18701, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":5, "ts":1679087774880676, "dur":57917, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774853961, "dur":1352, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774855313, "dur":440, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774855760, "dur":455, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1679087774856222, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774856231, "dur":497, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1679087774856733, "dur":378, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":6, "ts":1679087774857116, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774857159, "dur":169, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":6, "ts":1679087774857334, "dur":138, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/UnityPlayer.so" }}
+,{ "pid":12345, "tid":6, "ts":1679087774857476, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1679087774857483, "dur":81020, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/UnityPlayer.so" }}
+,{ "pid":12345, "tid":6, "ts":1679087774938516, "dur":2, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"Player" }}
+,{ "pid":12345, "tid":6, "ts":1679087774938520, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774854006, "dur":1310, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774855316, "dur":440, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774855758, "dur":664, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774856430, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774856433, "dur":67, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774856502, "dur":583, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857088, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857165, "dur":91, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857259, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857264, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857449, "dur":184, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":7, "ts":1679087774857640, "dur":661, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":7, "ts":1679087774858307, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774858319, "dur":218, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":7, "ts":1679087774858544, "dur":46, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774858594, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774858601, "dur":717, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859321, "dur":24, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859347, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859353, "dur":388, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859743, "dur":21, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Csg.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859766, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774859769, "dur":387, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Csg.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774860168, "dur":70, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774860240, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774860243, "dur":764, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861009, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861035, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861039, "dur":426, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861468, "dur":28, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation.x86_64" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861497, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774861501, "dur":1689, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation.x86_64" }}
+,{ "pid":12345, "tid":7, "ts":1679087774863201, "dur":8, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":7, "ts":1679087774863214, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1679087774863225, "dur":320, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":7, "ts":1679087774863549, "dur":74998, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774854040, "dur":1281, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774855321, "dur":420, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774855748, "dur":452, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1679087774856206, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774856214, "dur":360, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1679087774856579, "dur":782, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":8, "ts":1679087774857363, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774857368, "dur":182, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":8, "ts":1679087774857554, "dur":1146, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":8, "ts":1679087774858703, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1679087774858708, "dur":4907, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":8, "ts":1679087774863633, "dur":74970, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774854077, "dur":1247, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774855325, "dur":437, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774855763, "dur":878, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774856649, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774856692, "dur":445, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857159, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857165, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857195, "dur":69, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857267, "dur":3, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857271, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857302, "dur":221, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857535, "dur":76, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857613, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857617, "dur":262, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857881, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.CompilerServices.Unsafe.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857906, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774857909, "dur":102, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.CompilerServices.Unsafe.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774858014, "dur":44, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774858060, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774858063, "dur":323, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774858388, "dur":672, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774859062, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774859064, "dur":3125, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862192, "dur":28, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862222, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862227, "dur":101, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862331, "dur":22, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862354, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862357, "dur":89, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862448, "dur":25, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862475, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862478, "dur":87, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862567, "dur":83, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862652, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862656, "dur":230, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862889, "dur":21, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862912, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774862916, "dur":90, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863008, "dur":14, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/boot.config" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863024, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863026, "dur":172, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/boot.config" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863205, "dur":3, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863210, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863213, "dur":323, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863538, "dur":3, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863543, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1679087774863548, "dur":1051, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":9, "ts":1679087774864601, "dur":73972, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774854113, "dur":1217, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774855330, "dur":435, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774855766, "dur":427, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1679087774856196, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774856203, "dur":547, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1679087774856769, "dur":432, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":10, "ts":1679087774857205, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774857213, "dur":175, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":10, "ts":1679087774857395, "dur":617, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":10, "ts":1679087774858015, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774858022, "dur":2168, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":10, "ts":1679087774860196, "dur":8, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":10, "ts":1679087774860208, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774860222, "dur":1712, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":10, "ts":1679087774861939, "dur":5, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libMonoPosixHelper.so" }}
+,{ "pid":12345, "tid":10, "ts":1679087774861947, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1679087774862063, "dur":4814, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libMonoPosixHelper.so" }}
+,{ "pid":12345, "tid":10, "ts":1679087774866887, "dur":71729, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774854157, "dur":1181, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774855338, "dur":438, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774855777, "dur":847, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774856634, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774856651, "dur":386, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857039, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857045, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857103, "dur":511, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857618, "dur":24, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857643, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857646, "dur":323, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774857974, "dur":35, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774858014, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774858021, "dur":362, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Runtime.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774858387, "dur":45, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774858437, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774858444, "dur":1139, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774859585, "dur":60, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774859647, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774859650, "dur":524, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860179, "dur":29, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860213, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860221, "dur":172, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860398, "dur":59, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860461, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774860469, "dur":545, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774861021, "dur":858, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774861884, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1679087774861894, "dur":2615, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1679087774864515, "dur":74066, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774854242, "dur":1099, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774855341, "dur":432, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774855773, "dur":433, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774856211, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774856219, "dur":405, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774856630, "dur":764, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":12, "ts":1679087774857396, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774857404, "dur":115, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":12, "ts":1679087774857523, "dur":143, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774857668, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774857671, "dur":376, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858050, "dur":110, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858161, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858165, "dur":584, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858751, "dur":124, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858877, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774858880, "dur":786, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774859668, "dur":20, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774859690, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774859693, "dur":163, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774859858, "dur":192, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774860051, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774860054, "dur":663, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774860720, "dur":33, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774860754, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774860757, "dur":732, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861493, "dur":21, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861516, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861520, "dur":95, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861618, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861637, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861640, "dur":251, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861893, "dur":53, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UNETModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861948, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774861952, "dur":273, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UNETModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862229, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862248, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862251, "dur":112, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862365, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862385, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862404, "dur":57, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862463, "dur":3, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862468, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1679087774862470, "dur":1105, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":12, "ts":1679087774863578, "dur":74985, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774854258, "dur":1118, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774855377, "dur":390, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774855771, "dur":837, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774856614, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774856625, "dur":479, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857125, "dur":101, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857231, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857256, "dur":415, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857676, "dur":224, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Confluent.Kafka.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857905, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774857912, "dur":443, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Confluent.Kafka.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774858357, "dur":365, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774858724, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774858727, "dur":2243, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774860973, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774860998, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861002, "dur":467, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861472, "dur":20, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861494, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861498, "dur":87, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861587, "dur":19, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861607, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861610, "dur":54, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861665, "dur":13, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861679, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861682, "dur":101, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861849, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861868, "dur":5, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861876, "dur":55, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861932, "dur":7, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libmonobdwgc-2.0.so" }}
+,{ "pid":12345, "tid":13, "ts":1679087774861941, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1679087774862052, "dur":14889, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/x86_64/libmonobdwgc-2.0.so" }}
+,{ "pid":12345, "tid":13, "ts":1679087774876981, "dur":61577, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774854295, "dur":1088, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774855383, "dur":355, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774855740, "dur":132, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774855875, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774855942, "dur":455, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856400, "dur":17, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.KdTree.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856427, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856430, "dur":69, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.KdTree.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856501, "dur":14, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Stl.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856517, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856519, "dur":385, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.ProBuilder.Stl.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856911, "dur":12, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856947, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774856981, "dur":1816, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":14, "ts":1679087774858810, "dur":219, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774859032, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774859038, "dur":1114, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":14, "ts":1679087774860159, "dur":9, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":14, "ts":1679087774860172, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1679087774860180, "dur":3991, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":14, "ts":1679087774864176, "dur":74402, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774854345, "dur":1077, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774855423, "dur":345, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774855770, "dur":845, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774856625, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774856677, "dur":419, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774857127, "dur":12, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":15, "ts":1679087774857141, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774857169, "dur":1369, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":15, "ts":1679087774858543, "dur":39, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774858583, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774858587, "dur":790, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859380, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859400, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859403, "dur":320, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859725, "dur":65, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859791, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774859794, "dur":297, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860093, "dur":61, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860156, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860162, "dur":323, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860488, "dur":26, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860535, "dur":7, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774860557, "dur":804, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861364, "dur":46, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIElementsNativeModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861412, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861416, "dur":143, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UIElementsNativeModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861561, "dur":30, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861593, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861597, "dur":287, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861886, "dur":66, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861954, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774861957, "dur":349, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862309, "dur":20, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862331, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862335, "dur":76, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862414, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862441, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862444, "dur":48, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862494, "dur":14, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862510, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862513, "dur":63, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862578, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862598, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862602, "dur":66, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862670, "dur":22, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862694, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862697, "dur":71, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862769, "dur":15, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862786, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862788, "dur":40, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862829, "dur":13, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862843, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862846, "dur":62, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862910, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/level0" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862915, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774862918, "dur":173, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/level0" }}
+,{ "pid":12345, "tid":15, "ts":1679087774863093, "dur":4, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/level0.resS" }}
+,{ "pid":12345, "tid":15, "ts":1679087774863099, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1679087774863108, "dur":730, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/level0.resS" }}
+,{ "pid":12345, "tid":15, "ts":1679087774863841, "dur":74858, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774854359, "dur":1070, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774855429, "dur":310, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774855742, "dur":921, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774856665, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774856668, "dur":331, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857001, "dur":402, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857405, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857409, "dur":117, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857529, "dur":27, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857558, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857562, "dur":330, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857897, "dur":87, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857989, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774857997, "dur":275, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858277, "dur":45, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858326, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858333, "dur":186, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858522, "dur":262, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858788, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774858794, "dur":1812, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774860612, "dur":151, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774860767, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774860774, "dur":897, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774861676, "dur":67, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774861748, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774861803, "dur":209, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774862016, "dur":10, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":16, "ts":1679087774862030, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774862040, "dur":1045, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863109, "dur":136, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863248, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863253, "dur":104, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863359, "dur":2, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/resources.assets" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863363, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863365, "dur":172, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/resources.assets" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863539, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles /home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863564, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863567, "dur":72, "ph":"X", "name": "CopyFiles",  "args": { "detail":"/home/hiram/Projects/TC2008-Equipo3/simulation_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1679087774863640, "dur":74908, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1679087774940357, "dur":752, "ph":"X", "name": "ProfilerWriteOutput" }
+,{ "pid": 0, "tid": 1, "ts": 1679087774947693, "dur": 1627, "ph": "X", "name": "backend_profiler1.traceevents", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1679087774947137, "dur": 2222, "ph": "X", "name": "Write chrome-trace events", "args": {} },

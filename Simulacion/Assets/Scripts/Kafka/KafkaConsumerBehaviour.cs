@@ -1,13 +1,6 @@
-using System;
-using System.Collections;
 using System.Threading;
 using UnityEngine;
 using System.Collections.Concurrent;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Confluent.Kafka;
-using Unity.VisualScripting;
 
 namespace Kafka
 {
